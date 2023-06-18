@@ -14,6 +14,7 @@ html
     font-size: 20px;
     font-style: normal;
     font-family: 'Cabin',sans-serif;
+    min-width: 600px;
 }
 body
 {
@@ -123,7 +124,10 @@ body
 li
 {
     float: left;
-    margin: 10px;
+    margin-left: 5px;
+    margin-right: 50px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 li a
 {
