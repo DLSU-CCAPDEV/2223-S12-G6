@@ -30,7 +30,7 @@ body
     background-color: white;
     float: left;
 }
-#store
+#stores
 {
     margin: auto;
     margin-top: 10px;
@@ -40,7 +40,7 @@ body
     border-radius: 100px;
     transition: 0.5s;
 }
-#store:hover
+#stores:hover
 {
     background-color: beige;
     transition: 0.5s;
