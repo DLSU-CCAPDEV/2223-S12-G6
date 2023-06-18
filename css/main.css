@@ -89,6 +89,7 @@ body
     margin-top: 10px;
     height: 100px;
     border: solid 2px #ac3b61;
+    transition: 0.5s;
 }
 .store:hover
 {
@@ -101,10 +102,13 @@ body
     width: 100%;
     flex-grow: 1;
     font-family: 'Cabin',sans-serif;
+    background-color: #EEE2DC;
+    transition: 0.2s;
 }
 .storename:hover
 {
-
+    background-color: #Bab2B5;
+    transition: 0.2s;
 }
 #nav
 {
