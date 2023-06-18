@@ -1,3 +1,4 @@
+
 const revDivNode = document.createElement("div");
 revDivNode.className="review";
 revDivNode.textContent="INSERT REVIEW/S HERE";
@@ -12,7 +13,7 @@ window.onload = function()
         buttons[x].id = "button"+x;
         buttons[x].onclick = function disp()
         {   
-            storeClick(this.id);
+            storeClick(this.id, x);
         }
     }
     
@@ -23,7 +24,7 @@ function test()
     document.getElementById("button").innerHTML="Clickewd";
 }
 
-function storeClick(id)
+function storeClick(id, x)
 {
     me = document.getElementById(id);
     store = me.parentNode;
