@@ -1,16 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@keyframes append-animate {
+    from
+    {
+        opacity: 0;
+    }
+    to
+    {
+        opacity: 1;
+    }
+}
 html
 {
     font-size: 20px;
-    font-style: italic;
-}
-p
-{
-    color: red;
+    font-style: normal;
+    font-family: 'Cabin',sans-serif;
 }
 body
 {
     margin: 10px;
-    height: 1200px;
+    height: auto;
+    background-color: #EEE2DC;
 }
 
 #header
@@ -26,23 +35,19 @@ body
     height: 1080px;
     min-width: 500px;
     margin: auto;
-    border: solid 1px red;
-    background-color: white;
+    background-color: #EEE2DC;
     float: left;
+
 }
 #stores
 {
     margin: auto;
     margin-top: 10px;
-    height: 30%;
+    height: 90%;
     width: 95%;
-    background-color: blue;
-    border-radius: 100px;
-    transition: 0.5s;
-}
-#stores:hover
-{
-    background-color: beige;
+    background-color: #EEE2DC;
+    border: 2px #edc7b7 solid;
+    border-radius: 50px;
     transition: 0.5s;
 }
 #storedetails
@@ -59,7 +64,6 @@ body
     background-color: rebeccapurple;
     float: right;
 }
-
 #reviews
 {
     height: 60%;
@@ -76,10 +80,48 @@ body
     width: 95%;
     margin-top: 10px;
     border: solid 2px black;
+    transition: 0.5s;
+    animation: append-animate .5s linear;
 }
 .store
 {
     width: 95%;
     margin-top: 10px;
-    border: solid 2px yellow;
+    height: 100px;
+    border: solid 2px #ac3b61;
+}
+.store:hover
+{
+    background-color: #edc7b7;
+    border: #123C69 solid 2px;
+    transition: 0.5s;
+}
+.storename
+{
+    width: 100%;
+    flex-grow: 1;
+    font-family: 'Cabin',sans-serif;
+}
+.storename:hover
+{
+
+}
+#nav
+{
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    justify-self: center;
+    border: solid 1px red;
+    padding: auto;
+}
+li
+{
+    float: left;
+    margin: 10px;
+}
+li a
+{
+    display: block;
 }
