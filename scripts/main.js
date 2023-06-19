@@ -45,11 +45,13 @@ function storeClick(id, x)
     if(![...store.children].includes(revDivNode))
     {
         document.getElementById(storeid).style.height="400px";
+        me.style.opacity=1;
         store.append(revDivNode);
     }
     else
     {
         document.getElementById(storeid).style.height="100px";
+        me.style.opacity=0.5
         store.removeChild(revDivNode);
     }
 

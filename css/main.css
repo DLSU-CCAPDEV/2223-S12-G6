@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Fjalla+One&display=swap');
 @keyframes append-animate {
     from
     {
@@ -13,7 +13,7 @@ html
 {
     font-size: 20px;
     font-style: normal;
-    font-family: 'Cabin',sans-serif;
+    font-family: 'Cabin','Fjalla One',sans-serif;
     min-width: 600px;
 }
 body
@@ -29,6 +29,8 @@ body
     height: 45px;
     background-color: bisque;
     margin-bottom: 15px;
+    font-weight: 900;
+    
 }
 #posts
 {
@@ -38,7 +40,6 @@ body
     margin: auto;
     background-color: #EEE2DC;
     float: left;
-
 }
 #stores
 {
@@ -97,12 +98,18 @@ body
     background-color: #edc7b7;
     border: #123C69 solid 2px;
     transition: 0.5s;
+
 }
 .storename
 {
+    font-family: 'Fjalla One',sans-serif;
+    font-weight: 900;
+    letter-spacing: 5px;
+    font-size: large;
     width: 100%;
+    margin: 0px;
+    height: 50%;
     flex-grow: 1;
-    font-family: 'Cabin',sans-serif;
     background-color: #EEE2DC;
     transition: 0.2s;
 }
@@ -110,6 +117,7 @@ body
 {
     background-color: #Bab2B5;
     transition: 0.2s;
+    
 }
 #nav
 {
@@ -132,4 +140,50 @@ li
 li a
 {
     display: block;
+}
+#button0
+{  
+    background-image: url('../source/jollibee.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% ;
+    background-repeat:repeat-y;
+    background-position: 0px 70%;
+    opacity: 0.5;
+}
+#button1
+{
+    background-image: url('../source/mcdo.png');
+    background-repeat: no-repeat;
+    background-size: 100% ;
+    background-repeat:repeat-y;
+    background-position: 0px 70%;
+    opacity: 0.5;
+}
+#button2
+{
+    background-image: url('../source/kfc.png');
+    background-repeat: no-repeat;
+    background-size: 100% ;
+    background-repeat:repeat-y;
+    background-position: 0px 70%;
+    opacity: 0.5;
+}
+#button3
+{
+    background-image: url('../source/aterica.png');
+    background-repeat: no-repeat;
+    background-size: 100% ;
+    background-repeat:repeat-y;
+    background-position: 0px 70%;
+    opacity: 0.5;
+}
+#button4
+{
+    background-image: url('../source/dlsu.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% ;
+    background-repeat:repeat-y;
+    background-position: 0px 70%;
+    opacity: 0.5;
+    transition: 0.5s;
 }
