@@ -125,7 +125,6 @@ body
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    justify-self: center;
     border: solid 1px red;
     padding: auto;
 }
@@ -186,4 +185,26 @@ li a
     background-position: 0px 70%;
     opacity: 0.5;
     transition: 0.5s;
+}
+.rating
+{
+    text-align: right;
+    margin-right: 10px;
+}
+
+.storerating
+{
+    margin: auto;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+}
+.star
+{
+    width: 30px;
+    height: 30px;
+    background-image: url('../source/star.png');
+    background-size: 30px 30px;
+    background-repeat: repeat;
 }
