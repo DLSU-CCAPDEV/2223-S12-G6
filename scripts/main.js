@@ -28,6 +28,13 @@ window.onload = function()
     // we will have multiple stores. Also adds an id to them automatically
     // upon loading. Personally makes it easier but if theres another way
     // go ahead lang.
+    
+    if(localStorage.getItem("loggedin")=="true")
+    {
+        document.querySelector('#person').innerHTML="PROFILE";
+        document.querySelector('#person').href = "editProfile.html";
+    }
+
     var buttons = document.getElementsByClassName("storename");
     var stores = document.getElementsByClassName("store");
     for(x=0;x<=stores.length;x++)

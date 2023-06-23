@@ -41,8 +41,37 @@
 		</div>
 
     			<p>By creating an account you agree to our <a href="https://policies.google.com/privacy?hl=en-US">Terms & Privacy</a>.</p>
-    			<button type="submit" class="registerbtn">Register</button>
+    			<button type="submit" class="registerbtn" onclick="register()">Register</button>
 		</div>
 		</form>
+
+	<script>
+		function register()
+		{
+			var em = document.querySelector('#email').value;
+			var psw = document.querySelector('#psw').value;
+			if(document.querySelector('#psw-repeat').value!=psw)
+			{
+				document.querySelector('#psw-repeat').value=null;
+			}
+			else
+			{
+				let accounts = [];
+				if(localStorage.getItem("accounts"))
+				{
+					accounts = JSON.parse(localStorage.getItem("accounts"));
+				}
+				const account = 
+				{
+					email:em,
+					pass:psw
+				}
+				
+				accounts.push(account);
+
+				localStorage.setItem("accounts",JSON.stringify(accounts));
+			}
+		}
+	</script>
 	</body>
 </html>

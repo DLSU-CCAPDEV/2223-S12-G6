@@ -76,10 +76,18 @@
               </div>
             </div>
           </div>
+          <button onclick="logout()" href="index.html">Log Out</button>
         </form>
       </div>
   </div>
 </div>
 <hr>
+<script>
+  function logout()
+  {
+      localStorage.setItem("loggedin","false");
+      window.location.href ="index.html";
+  }
+</script>
 </body>
 </html>

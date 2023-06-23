@@ -55,6 +55,7 @@
   </style>
 </head>
 <body>
+  <a style="float: left; font-size: larger;" href="index.html">BACK</a>
   <h1 id="title">Review Rating System</h1>
   <div id="comments">
     <h3>Comments:</h3>
@@ -70,7 +71,7 @@
     <!--<input type="text" id="commentInput" placeholder="Add your review here...">-->
     <textarea id="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
     <input type="file" id="imageInput">
-    <button onclick="addComment()">Submit</button>
+    <button onclick="checkLogin()">Submit</button>
   </div>
   <script>
     let selectedRating = 0;
@@ -88,6 +89,14 @@
           stars[i].classList.remove('selected');
         }
       }
+    }
+
+    function checkLogin()
+    {
+      if(localStorage.getItem("loggedin")=="true")
+        addComment();
+      else
+        window.location.href="login.html";
     }
 
     function addComment() {
