@@ -102,6 +102,7 @@
     function addComment() {
       
       const comment = commentInput.value;
+      var uname = localStorage.getItem("loggeduname");
       if (comment === '') return;
 
       const file = imageInput.files[0];
@@ -111,6 +112,7 @@
         const imageUrl = event.target.result;
 
         const review = {
+          name: uname,
           rating: selectedRating,
           comment: comment,
           image: imageUrl
@@ -119,7 +121,7 @@
         saveReview(review);
 
         const li = document.createElement('li');
-        li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+        li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
         li.style.marginTop="10px";
         commentList.appendChild(li);
 
@@ -131,6 +133,7 @@
         reader.readAsDataURL(file);
       } else {
         const review = {
+          name: uname,
           rating: selectedRating,
           comment: comment
         };
@@ -138,7 +141,7 @@
         saveReview(review);
 
         const li = document.createElement('li');
-        li.innerText = `${review.rating} star(s): ${review.comment}`;
+        li.innerText = `${review.name}: ${review.rating} star(s): ${review.comment}`;
         commentList.appendChild(li);
 
     
@@ -164,11 +167,11 @@
           const li = document.createElement('li');
           if(review.image!=null)
           {
-            li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+            li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
           }
           else
           {
-            li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p>`;
+            li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p>`;
           }
           
           commentList.appendChild(li);
