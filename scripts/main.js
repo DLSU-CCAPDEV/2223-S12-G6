@@ -1,8 +1,9 @@
-
 const revDivNode = document.createElement("div");
 revDivNode.className="review";
 revDivNode.textContent="INSERT REVIEW/S HERE";
 revDivNode.hidden=false;
+
+const revPreview = document.createElement("p");
 
 
 const revNode = document.createElement("form");
@@ -49,14 +50,28 @@ Function for what happens on click of a store's name
 */
 function storeClick(id, x)
 {
+    while(revDivNode.firstChild)
+    {
+        revDivNode.removeChild(revDivNode.lastChild);
+    }
+
     var me = document.getElementById(id);
     var store = me.parentNode;
     var storeid = store.id;
     var stores = document.getElementsByClassName("store");
-    //hiddenNameNode.value = document.getElementById(storeid).childNodes
 
     hiddenNameNode.value = store.querySelector('.storename').innerHTML;
     localStorage.setItem("nameOfStore",hiddenNameNode.value);
+
+    if(localStorage.getItem('reviews'+hiddenNameNode.value))
+    {
+        var reviews = JSON.parse(localStorage.getItem('reviews'+hiddenNameNode.value));
+        reviews.forEach(element => {
+            revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment}</p>`;
+            revDivNode.append(revPreview);
+        });
+    }
+    
 
     //Ensures only one store is expanded at one time
     for(x =0;x<stores.length;x++)
