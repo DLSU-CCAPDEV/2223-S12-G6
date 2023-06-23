@@ -9,10 +9,16 @@
         var name = localStorage.getItem("nameOfStore");
         document.getElementById("title").innerHTML= name+ " Review Rating System";
         revs = 'reviews' + name;
-        loadReviews();
+        loadReviews()
       }
   </script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Fjalla+One&display=swap');
+    html
+    {
+      background-color: #EEE2DC;
+      font-family: "Fjalla One", sans-serif;
+    }
     .stars {
       display: inline-block;
       font-size: 24px;
@@ -27,23 +33,45 @@
     .comments { 
       margin-top: 10px;
     }
+    #title
+    {
+      text-align: center;
+    }
+    #comments
+    {
+      border: 1px solid bisque;
+      border-radius: 100px;
+      margin: auto;
+      background-color: #edc7b7;
+    }
+    #comments h3
+    {
+      margin-left: 60px;
+    }
+    #comments ul
+    {
+      margin-left: 35px;
+    }
   </style>
 </head>
 <body>
   <h1 id="title">Review Rating System</h1>
+  <div id="comments">
+    <h3>Comments:</h3>
+  <ul id="commentList"></ul>
+  </div>
+  
   <div class="stars" onclick="rate(1)">★</div>
   <div class="stars" onclick="rate(2)">★</div>
   <div class="stars" onclick="rate(3)">★</div>
   <div class="stars" onclick="rate(4)">★</div>
   <div class="stars" onclick="rate(5)">★</div>
-  <div class="comments">
-    <h3>Comments:</h3>
-    <ul id="commentList"></ul>
-    <input type="text" id="commentInput" placeholder="Add your review here...">
+<div class="comments">
+    <!--<input type="text" id="commentInput" placeholder="Add your review here...">-->
+    <textarea id="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
     <input type="file" id="imageInput">
     <button onclick="addComment()">Submit</button>
   </div>
-
   <script>
     let selectedRating = 0;
     const commentList = document.getElementById('commentList');
@@ -83,6 +111,7 @@
 
         const li = document.createElement('li');
         li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+        li.style.marginTop="10px";
         commentList.appendChild(li);
 
         commentInput.value = '';

@@ -34,10 +34,27 @@ window.onload = function()
     {
         stores[x].id = "store"+x;
         buttons[x].id = "button"+x;
+        var name = stores[x].querySelector('.storename').innerHTML;
+        if(localStorage.getItem('reviews'+name))
+        {
+            var revs = JSON.parse(localStorage.getItem('reviews'+name));
+            var rating = 0;
+            var y =0;
+            revs.forEach(element => {
+                y++;
+                rating += element.rating;
+            });
+            rating /=y;
+            stores[x].querySelector('.rating').innerHTML = Math.round(rating*100)/100;
+        }
+        else
+        stores[x].querySelector('.rating').innerHTML = "No Ratings";
+        
         buttons[x].onclick = function disp()
         {   
             storeClick(this.id, x);
         }
+        
     }
     
 }
@@ -56,7 +73,7 @@ function storeClick(id, x)
     var store = me.parentNode;
     var storeid = store.id;
     var stores = document.getElementsByClassName("store");
-
+    //var rating = 0;
     hiddenNameNode.value = store.querySelector('.storename').innerHTML;
     localStorage.setItem("nameOfStore",hiddenNameNode.value);
 
@@ -76,10 +93,13 @@ function storeClick(id, x)
                 revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment.substring(0,50)}...</p>`;
                 revDivNode.append(revPreview);
             }
-            
+            //rating += element.rating;
         });
     }
-    
+    //rating = rating/x;
+    //store.querySelector('.rating').innerHTML = rating;
+
+    //store.children.item(2).innerHTML = rating;
 
     //Ensures only one store is expanded at one time
     for(x =0;x<stores.length;x++)
