@@ -3,9 +3,6 @@ revDivNode.className="review";
 revDivNode.textContent="INSERT REVIEW/S HERE";
 revDivNode.hidden=false;
 
-const revPreview = document.createElement("p");
-
-
 const revNode = document.createElement("form");
 revNode.id = "leaveReview";
 revNode.action = "ReviewForUserAccessOnly.html";
@@ -63,12 +60,23 @@ function storeClick(id, x)
     hiddenNameNode.value = store.querySelector('.storename').innerHTML;
     localStorage.setItem("nameOfStore",hiddenNameNode.value);
 
+    var x = 0;
     if(localStorage.getItem('reviews'+hiddenNameNode.value))
     {
         var reviews = JSON.parse(localStorage.getItem('reviews'+hiddenNameNode.value));
         reviews.forEach(element => {
-            revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment}</p>`;
-            revDivNode.append(revPreview);
+            x++;
+            if(x<5)
+            {
+                var revPreview = document.createElement("p");
+                revPreview.className = "revPrev";
+                if(element.comment.length<50)
+                revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment}</p>`;
+                else
+                revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment.substring(0,50)}...</p>`;
+                revDivNode.append(revPreview);
+            }
+            
         });
     }
     
@@ -83,7 +91,7 @@ function storeClick(id, x)
     //Needs functionailty that the reviews change for each store.
     if(![...store.children].includes(revDivNode))
     {
-        document.getElementById(storeid).style.height="400px";
+        document.getElementById(storeid).style.height="600px";
         me.style.opacity=1;
         store.append(revDivNode);
         store.append(revNode);

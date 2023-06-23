@@ -35,7 +35,7 @@ body
 #posts
 {
     width: 100%;
-    height: 1080px;
+    height: 1250px;
     min-width: 500px;
     margin: auto;
     background-color: #EEE2DC;
@@ -45,7 +45,7 @@ body
 {
     margin: auto;
     margin-top: 10px;
-    height: 90%;
+    height: 95%;
     width: 95%;
     background-color: #EEE2DC;
     border: 2px #edc7b7 solid;
@@ -84,6 +84,7 @@ body
     border: solid 2px black;
     transition: 0.5s;
     animation: append-animate .5s linear;
+    text-overflow: ellipsis;
 }
 .store
 {
@@ -108,7 +109,7 @@ body
     font-size: large;
     width: 100%;
     margin: 0px;
-    height: 50%;
+    height: 40%;
     flex-grow: 1;
     background-color: #EEE2DC;
     transition: 0.2s;
@@ -216,4 +217,10 @@ li a
     font-family: "Fjalla One", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     border: 1px solid red;
     animation: append-animate 1s linear;
+}
+.revPrev
+{
+    margin: auto;
+    text-overflow: ellipsis;
+    width: 95%;
 }
