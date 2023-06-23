@@ -85,8 +85,12 @@
 <script>
   function logout()
   {
-      localStorage.setItem("loggedin","false");
-      window.location.href ="index.html";
+      if(confirm("This will log you out of your account. Proceed?"))
+      {
+        localStorage.setItem("loggedin","false");
+        window.location.href ="index.html";
+      }
+      
   }
 </script>
 </body>
