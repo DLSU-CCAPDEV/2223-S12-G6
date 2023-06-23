@@ -4,6 +4,26 @@ revDivNode.className="review";
 revDivNode.textContent="INSERT REVIEW/S HERE";
 revDivNode.hidden=false;
 
+
+const revNode = document.createElement("form");
+revNode.id = "leaveReview";
+revNode.action = "ReviewForUserAccessOnly.html";
+revNode.method = "POST";
+
+const submitNode = document.createElement("input");
+submitNode.type = "submit";
+submitNode.name = "submitButton";
+submitNode.value = "Leave A Review Here!";
+
+const hiddenNameNode = document.createElement("input");
+hiddenNameNode.type = "text";
+hiddenNameNode.id = "storeName";
+hiddenNameNode.hidden = true;
+
+revNode.appendChild(submitNode);
+revNode.appendChild(hiddenNameNode);
+
+
 window.onload = function()
 {
     //Gets all the store divs and store buttons, as in the future
@@ -33,6 +53,10 @@ function storeClick(id, x)
     var store = me.parentNode;
     var storeid = store.id;
     var stores = document.getElementsByClassName("store");
+    //hiddenNameNode.value = document.getElementById(storeid).childNodes
+
+    hiddenNameNode.value = store.querySelector('.storename').innerHTML;
+    localStorage.setItem("nameOfStore",hiddenNameNode.value);
 
     //Ensures only one store is expanded at one time
     for(x =0;x<stores.length;x++)
@@ -47,12 +71,14 @@ function storeClick(id, x)
         document.getElementById(storeid).style.height="400px";
         me.style.opacity=1;
         store.append(revDivNode);
+        store.append(revNode);
     }
     else
     {
         document.getElementById(storeid).style.height="100px";
         me.style.opacity=0.5
         store.removeChild(revDivNode);
+        store.removeChild(revNode);
     }
 
     //Placeholder functionally for onlick events for reviews,

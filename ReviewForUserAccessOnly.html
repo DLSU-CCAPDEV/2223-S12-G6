@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Restaurant Review </title>
+  <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=hSL5fasf5WUVXIxXxJ2Tm-QXZzYaei4LXT3iR9XFZncbdzcr24QjZ9DVBFbiODWiAserJQZv7RpJb0pQbxd_2NIcrlItwDTuTUPTY926ZARcbQPwjA6ZS0UZePZL5FiyZQFtw-PkHclYJyqcM04-JjsgXNEb2awDWYiFppR7S5yysePVXTJJnKQOC9OGNc_PkTj7yf2xyMvqgssCcxkGIEdDQv_LrDMr78i2Ogs3Vm2L2P4JAnUIywXTUr8tyBpfjsMh5DJ46YQsiG5f2QLfY6vIC5NJB11NzogD2Fz2wD2jd3yaWS556IHR8Qa3yCgQuYTBM2k-ZRgL0TEn0-rYmHT0UO3prgn6BE3l3__dc7LvgDqGHu0DUfywaTphiMzzQO7B6SHjoGblCWgEaJKT_C9xeDLkIwW8I4YQVxuiKdJDaSCujxF9coVSgIS2KLoRsqrO_1Pv3jMD1RpBsT61KUuH2W2kwPO_H7sxU9CZ3lQ" charset="UTF-8"></script>
+  <script type="text/javascript">
+      window.onload = function()
+      {
+        var name = localStorage.getItem("nameOfStore");
+        document.getElementById("title").innerHTML= name+ " Review Rating System";
+        revs = 'reviews' + name;
+        loadReviews();
+      }
+  </script>
+  <style>
+    .stars {
+      display: inline-block;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .stars:hover {
+      color: orange;
+    }
+    .selected {
+      color: orange;
+    }
+    .comments { 
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Review Rating System</h1>
+  <div class="stars" onclick="rate(1)">★</div>
+  <div class="stars" onclick="rate(2)">★</div>
+  <div class="stars" onclick="rate(3)">★</div>
+  <div class="stars" onclick="rate(4)">★</div>
+  <div class="stars" onclick="rate(5)">★</div>
+  <div class="comments">
+    <h3>Comments:</h3>
+    <ul id="commentList"></ul>
+    <input type="text" id="commentInput" placeholder="Add your review here...">
+    <input type="file" id="imageInput">
+    <button onclick="addComment()">Submit</button>
+  </div>
+
+  <script>
+    let selectedRating = 0;
+    const commentList = document.getElementById('commentList');
+    const commentInput = document.getElementById('commentInput');
+    const imageInput = document.getElementById('imageInput');
+
+    function rate(rating) {
+      selectedRating = rating;
+      const stars = document.getElementsByClassName('stars');
+      for (let i = 0; i < stars.length; i++) {
+        if (i < rating) {
+          stars[i].classList.add('selected');
+        } else {
+          stars[i].classList.remove('selected');
+        }
+      }
+    }
+
+    function addComment() {
+      
+      const comment = commentInput.value;
+      if (comment === '') return;
+
+      const file = imageInput.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        const imageUrl = event.target.result;
+
+        const review = {
+          rating: selectedRating,
+          comment: comment,
+          image: imageUrl
+        };
+
+        saveReview(review);
+
+        const li = document.createElement('li');
+        li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+        commentList.appendChild(li);
+
+        commentInput.value = '';
+        imageInput.value = '';
+      };
+
+      if (file) {
+        reader.readAsDataURL(file);
+      } else {
+        const review = {
+          rating: selectedRating,
+          comment: comment
+        };
+
+        saveReview(review);
+
+        const li = document.createElement('li');
+        li.innerText = `${review.rating} star(s): ${review.comment}`;
+        commentList.appendChild(li);
+
+    
+        commentInput.value = '';
+      }
+    }
+
+    function saveReview(review) {
+      let reviews = [];
+      if (localStorage.getItem(revs)) {
+        reviews = JSON.parse(localStorage.getItem(revs));
+      }
+
+      reviews.push(review);
+
+      localStorage.setItem(revs, JSON.stringify(reviews));
+    }
+
+    function loadReviews() {
+      if (localStorage.getItem(revs)) {
+        const reviews = JSON.parse(localStorage.getItem(revs));
+        reviews.forEach(review => {
+          const li = document.createElement('li');
+          if(review.image!=null)
+          {
+            li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+          }
+          else
+          {
+            li.innerHTML = `<p>${review.rating} star(s): ${review.comment}</p>`;
+          }
+          
+          commentList.appendChild(li);
+        });
+      }
+    }
+
+
+    loadReviews();
+  </script>
+</body>
+</html>

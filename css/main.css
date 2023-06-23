@@ -208,3 +208,12 @@ li a
     background-size: 30px 30px;
     background-repeat: repeat;
 }
+
+#leaveReview
+{
+    position: relative;
+    bottom:-30px;
+    font-family: "Fjalla One", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    border: 1px solid red;
+    animation: append-animate 1s linear;
+}
