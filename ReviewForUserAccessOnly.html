@@ -52,6 +52,11 @@
     {
       margin-left: 35px;
     }
+    span
+    {
+      margin-top: 50px;
+      margin-bottom: 5px;
+    }
   </style>
 </head>
 <body>
@@ -121,7 +126,7 @@
         saveReview(review);
 
         const li = document.createElement('li');
-        li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+        li.innerHTML = `<span>${review.name}: ${review.rating} star(s): ${review.comment}</span><br><img src="${review.image}" alt="Review Image" width="200">`;
         li.style.marginTop="10px";
         commentList.appendChild(li);
 
@@ -167,11 +172,11 @@
           const li = document.createElement('li');
           if(review.image!=null)
           {
-            li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p><img src="${review.image}" alt="Review Image" width="200">`;
+            li.innerHTML = `<span>${review.name}: ${review.rating} star(s): ${review.comment}<button id='${review.name}+${review.comment}' class='delete' onclick='deleteComment(this)'>Delete</button></span><br><img src="${review.image}" alt="Review Image" width="200">`;
           }
           else
           {
-            li.innerHTML = `<p>${review.name}: ${review.rating} star(s): ${review.comment}</p>`;
+            li.innerHTML = `<span>${review.name}: ${review.rating} star(s): ${review.comment}<button id='${review.name}+${review.comment}' class='delete' onclick='deleteComment(this)'>Delete</button></span>`;
           }
           
           commentList.appendChild(li);
@@ -179,8 +184,33 @@
       }
     }
 
+    function deleteComment(x)
+    {
+      var uname = localStorage.getItem("loggeduname");
+      var reviews = [];
+      var id = x.id.substring(0,x.id.indexOf("+"));
+      var comment = x.id.substring(x.id.indexOf("+")+1);
 
-    loadReviews();
+      if(localStorage.getItem(revs))
+      {
+        reviews = JSON.parse(localStorage.getItem(revs));
+      }
+      if(uname == id)
+      {
+        reviews.forEach(review=>{
+          if(review.name == uname)
+          {
+            if(review.comment == comment)
+            {
+              reviews.pop(review);
+            }
+          }
+        })
+      }
+      localStorage.setItem(revs,JSON.stringify(reviews));
+      location.reload();
+    }
+    //loadReviews();
   </script>
 </body>
 </html>

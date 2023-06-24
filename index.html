@@ -19,7 +19,10 @@
                         THE NEW YELP
                     </li>
                     <li>
-                        <button id = "search">SEARCH</button>
+                        <form>
+                            <input type="text" placeholder="Search" id="searchbar">
+                            <input type="button" value="Search" onclick="search()">
+                        </form>
                     </li>
                 </ul>
             </nav>
@@ -29,25 +32,34 @@
             <div id ="stores">
                 <div id="storedetails">
                     <div class ="store">
-                        <button class="storename">JOLLIBEE </button>
+                        <button class="storename">JOLLIBEE</button>
                         <ul class="storerating">
                             <li class="rating">Rating: 5</li>
                             <li class="star"></li>
                         </ul>
+                        <div class="description" hidden="true">
+                            <p> JOLLIBEE is a fast food restaurant located in Taft Avenue.</p>
+                        </div>
                     </div>
                     <div class ="store">
-                        <button class="storename">MCDO </button>
+                        <button class="storename">MCDO</button>
                         <ul class="storerating">
                             <li class="rating">Rating: 5</li>
                             <li class="star"></li>
                         </ul>
+                        <div class="description" hidden="true">
+                            <p> MCDO is a fast food restaurant located in Taft Avenue.</p>
+                        </div>
                     </div>
                     <div class ="store"> 
-                        <button class="storename">KFC </button>
+                        <button class="storename">KFC</button>
                         <ul class="storerating">
                             <li class="rating">Rating: 5</li>
                             <li class="star"></li>
                         </ul>
+                        <div class="description" hidden="true">
+                            <p> KFC is a fast food restaurant located in Taft Avenue.</p>
+                        </div>
                     </div>
                     <div class ="store"> 
                         <button class="storename">ATE RICA'S BACSILOG</button>
@@ -55,6 +67,9 @@
                             <li class="rating">Rating: 5</li>
                             <li class="star"></li>
                         </ul>
+                        <div class="description" hidden="true">
+                            <p> ATE RICA's is a silog restaurant located in Agno.</p>
+                        </div>
                     </div>
                     <div class ="store"> 
                         <button class="storename">CANTEEN</button>
@@ -62,6 +77,9 @@
                             <li class="rating">Rating: 5</li>
                             <li class="star"></li>
                         </ul>
+                        <div class="description" hidden="true">
+                            <p> DLSU Canteen is a canteen located inside Razon Building.</p>
+                        </div>
                     </div>
                 </div>
             </div>

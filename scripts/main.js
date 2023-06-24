@@ -75,15 +75,14 @@ function storeClick(id, x)
     {
         revDivNode.removeChild(revDivNode.lastChild);
     }
-
     var me = document.getElementById(id);
     var store = me.parentNode;
     var storeid = store.id;
     var stores = document.getElementsByClassName("store");
+    var desc = document.getElementsByClassName('description');
     //var rating = 0;
     hiddenNameNode.value = store.querySelector('.storename').innerHTML;
     localStorage.setItem("nameOfStore",hiddenNameNode.value);
-
     var x = 0;
     if(localStorage.getItem('reviews'+hiddenNameNode.value))
     {
@@ -95,9 +94,9 @@ function storeClick(id, x)
                 var revPreview = document.createElement("p");
                 revPreview.className = "revPrev";
                 if(element.comment.length<50)
-                revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment}</p>`;
+                revPreview.innerHTML = `<p>${element.name}: ${element.rating} star(s): ${element.comment}</p>`;
                 else
-                revPreview.innerHTML = `<p>${element.rating} star(s): ${element.comment.substring(0,50)}...</p>`;
+                revPreview.innerHTML = `<p>${element.name}: ${element.rating} star(s): ${element.comment.substring(0,50)}...</p>`;
                 revDivNode.append(revPreview);
             }
             //rating += element.rating;
@@ -112,8 +111,9 @@ function storeClick(id, x)
     for(x =0;x<stores.length;x++)
     {
         stores[x].style.height="100px";
+        stores[x].querySelector('.description').hidden=true;
     }
-
+    store.querySelector('.description').hidden=false;
     //Appends the Review Div Node to the clicked store.
     //Needs functionailty that the reviews change for each store.
     if(![...store.children].includes(revDivNode))
@@ -122,6 +122,7 @@ function storeClick(id, x)
         me.style.opacity=1;
         store.append(revDivNode);
         store.append(revNode);
+        store.querySelector('.description').hidden=false;
     }
     else
     {
@@ -129,6 +130,7 @@ function storeClick(id, x)
         me.style.opacity=0.5
         store.removeChild(revDivNode);
         store.removeChild(revNode);
+        store.querySelector('.description').hidden=true;
     }
 
     //Placeholder functionally for onlick events for reviews,
@@ -142,4 +144,30 @@ function storeClick(id, x)
             this.innerHTML="Banana";
         }
     }
+}
+
+function search()
+{
+    var x = document.getElementById('searchbar').value;
+    x = x.toUpperCase();
+    
+    var stores = document.querySelectorAll('.store');
+
+    if(x!="")
+    {
+        stores.forEach(store => {
+        store.hidden=true;
+        if(store.querySelector('.storename').innerHTML==x)
+        {
+            store.hidden=false;
+        }
+        });
+    }
+    else
+    {
+        stores.forEach(store =>{
+            store.hidden=false;
+        })
+    }
+    
 }
