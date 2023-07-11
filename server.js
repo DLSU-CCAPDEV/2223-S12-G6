@@ -12,6 +12,12 @@ const url = "mongodb+srv://TM6606:TM6606@bananacluster.lzoy6lc.mongodb.net/?retr
 const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
 const client = new mongodb.MongoClient(url, {
+  serverApi:
+  {
+    version:mongodb.ServerApiVersion.v1,
+    strict:true,
+    deprecationErrors: true
+  },
   useUnifiedTopology : true
 });
 const options = {
@@ -46,6 +52,7 @@ app.post('/index', async function(req,res)
       res.redirect('/login');
     }
 });
+app.get('/editProfile')
 
 app.listen(port,hostname,function()
 {
