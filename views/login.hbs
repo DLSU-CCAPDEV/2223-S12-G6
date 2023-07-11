@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TNY Register</title>
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+        <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=OuHtJTcMXGdrd2goGCPMx7_Qi4x4O_W0MqCH8SwKQ16hCzb4fqpGN4QqY-RZWQ5Ifh2tS6cLn_0cqGx3zT7PayYf9OVy7AxNYOefOoaCuwFJGFPhZ3t7EKH2k4gqWiuBg6v8RaJui43LGGmToOHFxXRKPiDM6-G4axodhUy_0ldWhML5FwbUAsS6tSVcPvPqBmMk_5VAA6sVoiiTsVzbJB-xqiHV22zXQa6OMhFNhADE-dI-XUac6jgMEr57AardF8va4UhuP3dUxeTjzTXKnmQ52tgBUcBGPSn-vyqx1gLjsRhFqIcXVoMWMnWFRB4U1HLAiKmbkren7_TDFqM1u4B0k9jbVnfYky-N7wvaV6Bemj0DH4cAFVmXerBnb8xXqu5jeW1-dGr38t9pcZP_4l6VldC_ZF3DyUuLFoHEKZC5fsZQGxRTnICexZTW5oy8OI-bjzvJcVq0qAHkpOWGUQ" charset="UTF-8"></script><script type="text/javascript" src="scripts/main.js"></script>
+    </head>
+	<body>
+  		<form action="index" method="post">
+		<div class="containerLogin">
+			<h1>Account Login</h1>
+			<p>Fill in this form to log in to your account</p>
+			<br>
+			<hr>
+
+    			<label for="uname"><b>Username</b></label><br>
+    			<input type="text" placeholder="Enter Username" name="uname" id="uname" required>
+			<br>
+
+    			<label for="psw"><b>Password</b></label><br>
+    			<input type="password" placeholder="Enter Password" name="psw" id="psw" required>
+			
+			<br></br>
+			<button type="submit" <!--onclick="login()"--> >Login</button>
+      			<label><input type="checkbox" checked="checked" name="remember"> Remember me</label>	
+  		</div>
+		<hr>
+		</form>
+
+  		<div class="container">
+    			<span class="psw">Forgot <a href="#">password?</a></span>
+			<br></br>
+			<form action="index.html">
+				<input type="submit" class="cancelbtn" value="Cancel Login">
+			</form>
+			<form action="register.html">
+				<label for="register">No account?</label>
+				<input type="submit" id="register" value="Register Account">
+			</form>
+	  	</div>
+	<!--
+	<script>
+		function login()
+		{
+			
+			let accounts = [];
+
+			if(localStorage.getItem("accounts"))
+			{
+				accounts = JSON.parse(localStorage.getItem("accounts"));
+				
+			}
+			var uname = document.querySelector('#uname').value;
+			var pass = document.querySelector('#psw').value;
+	
+			accounts.forEach(account => {
+				
+				if(account.email == uname)
+				{
+					if(account.pass != pass)
+					{
+						document.querySelector('#psw').value = null;
+					}
+					else
+					{
+						localStorage.setItem("loggedin","true");
+						localStorage.setItem("loggeduname",uname);
+					}
+				}
+			});
+			
+		}
+	</script>
+	-->
+	</body>
+</html>

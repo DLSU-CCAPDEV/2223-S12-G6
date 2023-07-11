@@ -6,3 +6,10 @@ LABARRETE, LANCE DESMOND D.
 PIMENTEL, ETHAN PAOLO C.
 
 CHOSEN SPECIFICATION: STORE REVIEW
+
+HOW TO SET UP SERVER:
+use npm install, if error
+install hbs, fs, body-parser, dotenv, express, mongodb, routes
+
+then do node server.js
+Connect to 127.0.0.1:9090
