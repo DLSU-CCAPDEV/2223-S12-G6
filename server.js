@@ -5,6 +5,7 @@ const fs = require('fs');
 const bodyParser =  require("body-parser");
 const controller = require("./controllers/controller.js");
 const { error } = require('console');
+const { create } = require('hbs');
 loggedin = false;
 uname = null;
 
@@ -98,7 +99,7 @@ app.post('/login', async function(req,res)
       pass : pass,
     }
 
-    await createDocument(document);
+    await createDocument("accounts",document);
     console.log("Created new user " + name + " linked to " + email);
     res.render('login');
 });
@@ -118,9 +119,32 @@ app.get('/ReviewForUserAccessOnly', function(req,res)
       link:link
   });
 });
-app.post('ReviewForUserAccessOnly', function(req,res)
+app.post('/ReviewForUserAccessOnly', async function(req,res)
 {
-  
+    var store = req.body.storeName;
+    var comment = req.body.commentInput;
+    var picture = req.body.imageInput;
+    var rating = req.body.stars;
+
+    await createCollection(store);
+
+    var document = 
+    {
+      user:uname,
+      comment: comment,
+      picture : picture,
+      rating : rating
+    }
+
+    await createDocument(store,document);
+
+    console.log(comment + rating + picture);
+    res.render('ReviewForUserAccessOnly',
+    {
+      storeName: store,
+      loggedin: loggedin,
+      link:  "ReviewForUserAccessOnly"
+    });
 })
 
 app.listen(port,hostname,function()
@@ -163,7 +187,7 @@ async function createCollection(collection)
   } 
 }
 
-async function createDocument(document)
+async function createDocument(collection,document)
 {
   console.log(document);
   try
@@ -171,7 +195,7 @@ async function createDocument(document)
     console.log("Connecting to Register...");
     await client.connect();
     console.log("Connected to Register!");
-    await client.db("local").collection("accounts").insertOne(document,{});
+    await client.db("local").collection(collection).insertOne(document,{});
     console.log("Document Inserted");
   }catch(error){ console.log(error);}
   finally
