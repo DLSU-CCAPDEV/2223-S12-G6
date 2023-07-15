@@ -6,10 +6,7 @@
   <script type="text/javascript">
       window.onload = function()
       {
-        var name = localStorage.getItem("nameOfStore");
-        document.getElementById("title").innerHTML= name+ " Review Rating System";
-        revs = 'reviews' + name;
-        loadReviews()
+        loadReviews();
       }
   </script>
   <style>
@@ -54,30 +51,138 @@
     }
     span
     {
-      margin-top: 50px;
+      margin-top: 0px;
       margin-bottom: 5px;
+    }
+    .rating {
+      display: inline-block;
+      position: relative;
+      height: 15px;
+      line-height: 25px;
+      font-size: 30px;
+    }
+
+    .rating label {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      cursor: pointer;
+    }
+
+    .rating label:last-child {
+      position: static;
+    }
+
+    .rating label:nth-child(1) {
+      z-index: 5;
+    }
+
+    .rating label:nth-child(2) {
+      z-index: 4;
+    }
+
+    .rating label:nth-child(3) {
+      z-index: 3;
+    }
+
+    .rating label:nth-child(4) {
+      z-index: 2;
+    }
+
+    .rating label:nth-child(5) {
+      z-index: 1;
+    }
+
+    .rating label input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+    }
+
+    .rating label .icon {
+      float: left;
+      color: transparent;
+    }
+
+    .rating label:last-child .icon {
+      color: #000;
+    }
+
+    .rating:not(:hover) label input:checked ~ .icon,
+    .rating:hover label:hover input ~ .icon {
+      color: #09f;
+    }
+
+    .rating label input:focus:not(:checked) ~ .icon:last-child {
+      color: #000;
+      text-shadow: 0 0 5px #09f;
     }
   </style>
 </head>
 <body>
-  <a style="float: left; font-size: larger;" href="index.html">BACK</a>
-  <h1 id="title">Review Rating System</h1>
+  <a style="float: left; font-size: larger;" href="/index">BACK</a>
+  <h1 id="title">{{storeName}} Review Rating System</h1>
   <div id="comments">
     <h3>Comments:</h3>
   <ul id="commentList"></ul>
   </div>
-  
+  <!--
   <div class="stars" onclick="rate(1)">★</div>
   <div class="stars" onclick="rate(2)">★</div>
   <div class="stars" onclick="rate(3)">★</div>
   <div class="stars" onclick="rate(4)">★</div>
   <div class="stars" onclick="rate(5)">★</div>
 <div class="comments">
-    <!--<input type="text" id="commentInput" placeholder="Add your review here...">-->
+    <!--<input type="text" id="commentInput" placeholder="Add your review here...">
     <textarea id="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
     <input type="file" id="imageInput">
     <button onclick="checkLogin()">Submit</button>
   </div>
+  -->
+  <!-- CODE FROM: https://codepen.io/neilpomerleau/pen/wzxzQM-->
+  <form class="rating" action="{{link}}" method="POST">
+    <input type="text" value="{{storeName}}" hidden="true" name="storeName">
+  <label>
+    <input type="radio" name="stars" value="1" />
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="2" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="3" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>   
+  </label>
+  <label>
+    <input type="radio" name="stars" value="4" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+  <label>
+    <input type="radio" name="stars" value="5" />
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+    <span class="icon">★</span>
+  </label>
+
+  <br>
+  <br>
+  <div>
+  <input type="textarea" id="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
+  <input type="file" id="imageInput">
+  <input type="submit" value="Submit" onclick="checkLogin()">
+  </div>
+ </form> 
   <script>
     let selectedRating = 0;
     const commentList = document.getElementById('commentList');
@@ -98,10 +203,12 @@
 
     function checkLogin()
     {
-      if(localStorage.getItem("loggedin")=="true")
+      {{#if loggedin}}
+        console.log("Adding COmment");
         addComment();
-      else
-        window.location.href="login.html";
+      {{else}}
+        window.location.href="login";
+      {{/if}}
     }
 
     function addComment() {

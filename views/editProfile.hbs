@@ -10,7 +10,7 @@
 
 <body>
 <div class="container bootstrap snippets bootdey">
-    <h1 class="text-primary">Edit Profile <a href="index.html">Home</a></h1>
+    <h1 class="text-primary">Edit Profile <a href="index">Home</a></h1>
       <hr>
 	<div class="row">
       <!-- left column -->
@@ -50,7 +50,7 @@
             <div class="col-lg-8">
               	<form>
 			<textarea rows="10" cols="100">Write a short description of your account here</textarea>
-		</form>	
+		</form action="editProfile" method="POST">	
             </div>
           </div>
           <div class="form-group">
@@ -76,7 +76,10 @@
               </div>
             </div>
           </div>
-          <button onclick="logout()" href="index.html">Log Out</button>
+          <input type="submit" id="save" value="Save Edits">
+        </form>
+        <form action="/">
+          <input type="submit" id="logout" value="Log Out">
         </form>
       </div>
   </div>
@@ -87,9 +90,8 @@
   {
       if(confirm("This will log you out of your account. Proceed?"))
       {
-        localStorage.setItem("loggedin","false");
-        localStorage.setItem("loggeduname",null);
-        window.location.href ="index.html";
+
+        window.location.href ="index";
       }
       
   }

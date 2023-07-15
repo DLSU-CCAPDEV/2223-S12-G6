@@ -1,3 +1,4 @@
+
 const controller =
 {
     home: function(req,res)
@@ -21,11 +22,11 @@ const controller =
     },
     register: function(req,res)
     {
-        res.render('index');
+        res.render('register');
     },
     review: function(req,res)
-    {
-        res.render('index');
+    {  
+        
     }
 }
 

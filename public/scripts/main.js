@@ -5,8 +5,8 @@ revDivNode.hidden=false;
 
 const revNode = document.createElement("form");
 revNode.id = "leaveReview";
-revNode.action = "ReviewForUserAccessOnly.html";
-revNode.method = "POST";
+revNode.action = "ReviewForUserAccessOnly";
+revNode.method = "GET";
 
 const submitNode = document.createElement("input");
 submitNode.type = "submit";
@@ -16,6 +16,7 @@ submitNode.value = "Leave A Review Here!";
 const hiddenNameNode = document.createElement("input");
 hiddenNameNode.type = "text";
 hiddenNameNode.id = "storeName";
+hiddenNameNode.name ="storeName";
 hiddenNameNode.hidden = true;
 
 revNode.appendChild(submitNode);
@@ -31,7 +32,7 @@ window.onload = function()
     if(localStorage.getItem("loggedin")=="true")
     {
         document.querySelector('#person').innerHTML="PROFILE";
-        document.querySelector('#person').href = "editProfile.html";
+        document.querySelector('#person').href = "editProfile";
     }
 
     var buttons = document.getElementsByClassName("storename");
@@ -69,6 +70,7 @@ Function for what happens on click of a store's name
 */
 function storeClick(id, x)
 {
+    console.log("Storeclick");
     while(revDivNode.firstChild)
     {
         revDivNode.removeChild(revDivNode.lastChild);
@@ -80,6 +82,7 @@ function storeClick(id, x)
     var desc = document.getElementsByClassName('description');
     //var rating = 0;
     hiddenNameNode.value = store.querySelector('.storename').innerHTML;
+    console.log(hiddenNameNode.value);
     localStorage.setItem("nameOfStore",hiddenNameNode.value);
     var x = 0;
     if(localStorage.getItem('reviews'+hiddenNameNode.value))
