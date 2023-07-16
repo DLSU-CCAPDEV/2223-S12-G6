@@ -6,6 +6,7 @@ const bodyParser =  require("body-parser");
 const controller = require("./controllers/controller.js");
 const { error } = require('console');
 const { create } = require('hbs');
+const { randomInt } = require('crypto');
 loggedin = false;
 uname = null;
 
@@ -103,7 +104,7 @@ app.post('/login', async function(req,res)
     console.log("Created new user " + name + " linked to " + email);
     res.render('login');
 });
-app.get('/ReviewForUserAccessOnly', function(req,res)
+app.get('/ReviewForUserAccessOnly', async function(req,res)
 {
 
     var store = req.query.storeName;
@@ -113,11 +114,15 @@ app.get('/ReviewForUserAccessOnly', function(req,res)
     else
       var link = "login";
 
+    await client.connect();
+    var reviews = await client.db("local").collection(store).find().toArray();
     res.render('ReviewForUserAccessOnly',{
       storeName: store,
       loggedin: loggedin,
-      link:link
+      link:link,
+      review: reviews
   });
+  await client.close();
 });
 app.post('/ReviewForUserAccessOnly', async function(req,res)
 {
@@ -127,24 +132,58 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
     var rating = req.body.stars;
 
     await createCollection(store);
-
+    var num = await randomInt(10);
     var document = 
     {
       user:uname,
       comment: comment,
       picture : picture,
-      rating : rating
+      rating : rating,
+      helpcount : 0,
+      num: num
     }
-
+    
+    console.log(num);
     await createDocument(store,document);
 
-    console.log(comment + rating + picture);
+    await client.connect();
+    var reviews = await client.db("local").collection(store).find().toArray();
+    //console.log(reviews);
+    //console.log(comment + rating + picture);
     res.render('ReviewForUserAccessOnly',
     {
       storeName: store,
       loggedin: loggedin,
-      link:  "ReviewForUserAccessOnly"
+      link:  "ReviewForUserAccessOnly",
+      review: reviews,
     });
+
+    await client.close();
+})
+app.get('/update', async function(req,res)
+{
+  console.log(req.query);
+  var name = req.query.name;
+  var comm = req.query.comment;
+  var num = parseInt(req.query.num);
+  var store = req.query.store;
+  var value = parseInt(req.query.value);
+
+  var query = {
+    user : name,
+    comment: comm,
+    num: num
+  };
+
+  await client.connect();
+  var doc = await client.db('local').collection(store).findOne(query,{helpcount:1});
+  var final = doc.helpcount+value;
+  console.log(doc);
+  
+  await client.db('local').collection(store).updateOne(doc,{$set: {helpcount:final}});
+  res.type('text/plain');
+  res.write(""+final);
+  res.end();
 })
 
 app.listen(port,hostname,function()
