@@ -63,9 +63,9 @@
     .rating {
       display: inline-block;
       position: relative;
-      height: 15px;
-      line-height: 25px;
-      font-size: 30px;
+      height: 40px;
+      line-height: 40px;
+      font-size: 40px;
     }
 
     .rating label {
@@ -163,46 +163,47 @@
   </div>
   -->
   <!-- CODE FROM: https://codepen.io/neilpomerleau/pen/wzxzQM-->
-  <form class="rating" action="{{link}}" method="POST">
-    <input type="text" value="{{storeName}}" hidden="true" name="storeName">
-  <label>
-    <input type="radio" name="stars" value="1" required/>
-    <span class="icon">★</span>
-  </label>
-  <label>
-    <input type="radio" name="stars" value="2" />
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-  </label>
-  <label>
-    <input type="radio" name="stars" value="3" />
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>   
-  </label>
-  <label>
-    <input type="radio" name="stars" value="4" />
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-  </label>
-  <label>
-    <input type="radio" name="stars" value="5" required/>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-    <span class="icon">★</span>
-  </label>
-
-  <br>
-  <br>
-  <div>
-  <textarea id="commentInput" name="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
-  <input type="file" id="imageInput" name="imageInput">
-  <input type="submit" value="Submit" onclick="checkLogin()">
-  </div>
+  <form action="{{link}}" method="POST">
+    <div class="rating">
+      <input type="text" value="{{storeName}}" hidden="true" name="storeName">
+    <label>
+      <input type="radio" name="stars" value="1" required/>
+      <span class="icon">★</span>
+    </label>
+    <label>
+      <input type="radio" name="stars" value="2" />
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+    </label>
+    <label>
+      <input type="radio" name="stars" value="3" />
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>   
+    </label>
+    <label>
+      <input type="radio" name="stars" value="4" />
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+    </label>
+    <label>
+      <input type="radio" name="stars" value="5" required/>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+      <span class="icon">★</span>
+    </label>
+    </div>
+    <br>
+    <br>
+    <div>
+    <textarea id="commentInput" name="commentInput" rows="5" cols="40" Placeholder="Add your review here"></textarea>
+    <input type="file" id="imageInput" name="imageInput">
+    <input type="submit" value="Submit" onclick="checkLogin()">
+    </div>
  </form> 
   <script>
     let selectedRating = 0;

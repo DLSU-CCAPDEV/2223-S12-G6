@@ -85,7 +85,23 @@ app.get('/index', function(req,res)
     })
   }
 });
-app.get('/editProfile',controller.Profile);
+app.get('/editProfile', async function(req,res)
+{
+  await client.connect();
+  var document = await client.db('local').collection('accounts').findOne({name:uname});
+  console.log(document);
+
+  await client.close();
+  res.render('editProfile',
+  {
+    pic:document.pic,
+    name:document.name,
+    email:document.email,
+    desc:document.desc
+  });
+  
+
+});
 app.get('/register',controller.register);
 app.post('/login', async function(req,res)
 {
@@ -93,11 +109,15 @@ app.post('/login', async function(req,res)
     var email = req.body.email;
     var name = req.body.uname;
     var pass = req.body.psw;
+    var pic = req.body.filename;
+    var desc = req.body.desc;
     var document =
     {
       email: email,
       name : name,
       pass : pass,
+      pic : pic,
+      desc: desc
     }
 
     await createDocument("accounts",document);

@@ -37,9 +37,8 @@
 			
 		<div class="containerDescription">
 			<label for="description"><b>Profile Description</b></label><br>
-			<form>
-				<textarea rows="10" cols="100">Write a short description of your account here</textarea>
-			</form>	
+			
+			<textarea rows="10" cols="100" placeholder="Add a short description of yourself!" id="desc" name="desc"></textarea>
 		</div>
 
     			<p>By creating an account you agree to our <a href="https://policies.google.com/privacy?hl=en-US">Terms & Privacy</a>.</p>
@@ -56,6 +55,7 @@
 			{
 				document.querySelector('#psw-repeat').value=null;
 			}
+			/*
 			else
 			{
 				let accounts = [];
@@ -73,6 +73,7 @@
 
 				localStorage.setItem("accounts",JSON.stringify(accounts));
 			}
+			*/
 		}
 	</script>
 	</body>
