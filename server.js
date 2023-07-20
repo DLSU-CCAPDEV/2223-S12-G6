@@ -109,7 +109,7 @@ app.post('/login', async function(req,res)
     var email = req.body.email;
     var name = req.body.uname;
     var pass = req.body.psw;
-    var pic = req.body.filename;
+    var pic = req.body.avatar;
     var desc = req.body.desc;
     var document =
     {
