@@ -9,6 +9,7 @@
       {
         //loadReviews();
       }
+      
   </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Fjalla+One&display=swap');
@@ -130,6 +131,11 @@
       position: absolute;
       right: 100px;
     }
+    .avatar
+    {
+      height: 30px;
+      width: 30px;
+    }
   </style>
 </head>
 <body>
@@ -141,7 +147,7 @@
     {{#each review}}
     <li>
       {{rating}}
-      {{user}} : {{comment}} <br><span id="helpful"><span id="helpcount{{user}}{{comment}}{{num}}">{{helpcount}}</span><input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
+      <img src="{{userPic}}" class="avatar">  {{user}} : {{comment}} <br><span id="helpful"><span><button {{hidden}} onclick="edit()">Edit</button><button {{hidden}} onclick="delete()">Delete</button></span>  <span id="helpcount{{user}}{{comment}}{{num}}">{{helpcount}}</span><input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
       <input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128078</span></span>
       <br>
       <br> 

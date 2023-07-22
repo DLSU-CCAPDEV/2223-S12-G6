@@ -5,10 +5,11 @@ const fs = require('fs');
 const bodyParser =  require("body-parser");
 const controller = require("./controllers/controller.js");
 const { error } = require('console');
-const { create } = require('hbs');
+const hbs = require('hbs');
 const { randomInt } = require('crypto');
 loggedin = false;
 uname = null;
+avatar = null;
 
 //const url = "mongodb+srv://TM6606:TM6606@bananacluster.lzoy6lc.mongodb.net/?retryWrites=true&w=majority";
 const url = "mongodb://127.0.0.1:27017/";
@@ -46,8 +47,9 @@ app.get('/login', controller.login);
 app.post('/index', async function(req,res)
 {
     uname = req.body.uname;
-    pass = req.body.psw;
-    acc = await findDocument({name:uname,pass:pass});
+    var pass = req.body.psw;
+    var acc = await findDocument({name:uname,pass:pass},{_id:0});
+    avatar = acc.pic;
     console.log(uname +" " + pass+ " " + acc);
     if(acc!=null)
     {
@@ -56,6 +58,7 @@ app.post('/index', async function(req,res)
           {
               lin:"editProfile",
               user:req.body.uname,
+              picture:avatar
           });
     }
     else
@@ -73,7 +76,8 @@ app.get('/index', function(req,res)
     res.render('index',
     {
       lin:"editProfile",
-      user:uname
+      user:uname,
+      picture:avatar
     });
   }
   else
@@ -106,6 +110,8 @@ app.get('/register',controller.register);
 app.post('/login', async function(req,res)
 {
     console.log("Registering...");
+    await client.connect();
+
     var email = req.body.email;
     var name = req.body.uname;
     var pass = req.body.psw;
@@ -120,9 +126,25 @@ app.post('/login', async function(req,res)
       desc: desc
     }
 
-    await createDocument("accounts",document);
-    console.log("Created new user " + name + " linked to " + email);
-    res.render('login');
+    var msg = "Error! Email or Username already taken!";
+    var sameEmail = client.db('local').collection('accounts').findOne({email:email});
+    var sameName = client.db('local').collection('accounts').findOne({name:name});
+    
+    if(sameEmail==null && sameName==null)
+    {
+      await createDocument("accounts",document);
+      console.log("Created new user " + name + " linked to " + email);
+      res.render('login');
+    }
+    else
+    {
+      res.render('register',
+      {
+        msg:msg,
+      })
+    }
+
+    
 });
 app.get('/ReviewForUserAccessOnly', async function(req,res)
 {
@@ -135,12 +157,20 @@ app.get('/ReviewForUserAccessOnly', async function(req,res)
       var link = "login";
 
     await client.connect();
+    var doc =
+    {
+      user:uname,
+    }
+    await client.db('local').collection(store).updateMany({user:uname},{$set:{hidden:''}});
+    await client.db('local').collection(store).updateMany({$or:[{user:{$ne:uname}}]},{$set:{hidden:'hidden'}});
     var reviews = await client.db("local").collection(store).find().toArray();
+
     res.render('ReviewForUserAccessOnly',{
+      name : uname,
       storeName: store,
       loggedin: loggedin,
       link:link,
-      review: reviews
+      review: reviews,
   });
   await client.close();
 });
@@ -149,6 +179,7 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
     var store = req.body.storeName;
     var comment = req.body.commentInput;
     var picture = req.body.imageInput;
+    var userPic = avatar;
     var rating = req.body.stars;
 
     await createCollection(store);
@@ -160,7 +191,9 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
       picture : picture,
       rating : rating,
       helpcount : 0,
-      num: num
+      num: num,
+      userPic: userPic,
+      hidden:''
     }
     
     console.log(num);
@@ -172,6 +205,7 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
     //console.log(comment + rating + picture);
     res.render('ReviewForUserAccessOnly',
     {
+      name : uname,
       storeName: store,
       loggedin: loggedin,
       link:  "ReviewForUserAccessOnly",
@@ -270,7 +304,7 @@ async function findDocument(document)
   try
   { 
     await client.connect();
-    account = await client.db("local").collection("accounts").findOne({name:document.name,pass:document.pass},options);
+    account = await client.db("local").collection("accounts").findOne({name:document.name,pass:document.pass});
     if(account != null)
       console.log("Account Found: Username: "+ account.name + " with password: " +account.pass);
     console.log(account);
@@ -284,3 +318,15 @@ async function findDocument(document)
   }
   return account;
 }
+
+hbs.registerHelper('ifEquals', function(var1,var2,options)
+{
+  if(var1===var2)
+  {
+    return options.fn(this);
+  }
+  else
+  {
+    return options.inverse(this);
+  }
+});

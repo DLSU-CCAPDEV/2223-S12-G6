@@ -12,7 +12,12 @@
             <nav>
                 <ul id="nav">
                     <li>
-                        <a href={{lin}} id="person">{{user}}</a>
+                        {{#if picture}}
+                        <a href={{lin}} id="person"><img src="{{picture}}" width="30px" height="30px"></a>
+                        {{else}}
+                        <a href={{lin}} id="person">LOGIN</a>
+                        {{/if}}
+                        
                     </li>
                     <li id="title">
                         THE NEW YELP
