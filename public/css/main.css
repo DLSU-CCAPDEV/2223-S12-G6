@@ -221,7 +221,45 @@ li a
     animation: append-animate 1s linear;
     left: 20px;
 }
-#avatar1
+#logout
 {
-
+    margin: auto;
+    float: right;
 }
+#comments
+{
+  border: 1px solid bisque;
+  border-radius: 100px;
+  margin: auto;
+  background-color: #edc7b7;
+  height: 200px;
+}
+#comments h3
+{
+  margin-left: 60px;
+}
+#comments ul
+{
+  margin-left: 35px;
+}
+#comments li
+{
+  margin-left: 50px;
+  text-overflow: ellipsis;
+  list-style: none;
+  display: block;
+  float: left;
+}
+span
+{
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+.avatar
+{
+  height: 30px;
+  width: 30px;
+}
+.comments { 
+    margin-top: 10px;
+  }

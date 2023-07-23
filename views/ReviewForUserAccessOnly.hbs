@@ -146,9 +146,9 @@
   <ul id="commentList"></ul>
     {{#each review}}
     <li>
-      {{rating}}
-      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{user}}{{comment}}{{num}}"> {{comment}}</span> <br><span id="helpful"><span><button {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this)">Edit</button><button {{hidden}} onclick="delete({{user}},{{comment}},{{num}})">Delete</button></span>  <span id="helpcount{{user}}{{comment}}{{num}}">{{helpcount}}</span><input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
-      <input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128078</span></span>
+      <span class="icon">{{rating}}★</span>
+      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{revID}}"> {{comment}}</span> <br><span id="helpful"><span><button id="edit{{revID}}" {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this, '{{revID}}')">Edit</button><button {{hidden}} id="del{{revID}}" onclick="delRev('{{../storeName}}','{{user}}','{{comment}}','{{num}}',this, '{{revID}}')">Delete</button></span>  <span id="helpcount{{revID}}">{{helpcount}}</span><input type="radio" name="{{revID}}" id="{{revID}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
+      <input type="radio" name="{{revID}}" id="{{revID}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128078</span></span>
       <br>
       <br> 
       </li>
@@ -279,9 +279,9 @@
       {{/if}}
       
     }
-    function edit(y,user,comment,num,x)
+    function edit(y,user,comment,num,x,id)
     {
-      var idString = user+comment+num+"textarea";
+      var idString = id+"textarea";
       console.log("editing!");
       if(x.innerHTML==="Edit")
         x.innerHTML = "Cancel Edits";
@@ -297,12 +297,28 @@
 
       const upD = document.createElement('button');
       upD.textContent = "Save Edits";
+
+      added.appendChild(edit);
+      added.appendChild(upD);
+
+      var span = document.querySelector('#'+id);
+      var parent = span.parentNode;
+      var ta = parent.querySelector('#'+idString);
+
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function()
       {
         if(this.readyState==4 && this.status==200)
         {
-          document.getElementById(user+comment+num).innerHTML = this.responseText;
+          var len = parseInt(this.responseText.substring(0,this.responseText.indexOf("+")));
+          var first = this.responseText.indexOf("+")+1;
+          document.getElementById(id).innerHTML = this.responseText.substring(first,first+len);
+          document.getElementById(id).id = this.responseText.substring(first+len+1);
+          document.getElementById("del"+id).id = "del"+this.responseText.substring(first+len+1);
+          document.getElementById("edit"+id).id = "edit"+this.responseText.substring(first+len+1);
+          parent.removeChild(added);
+          x.innerHTML="Edit";
+
         }
       };
 
@@ -314,19 +330,38 @@
         xhttp.send();
         console.log("saved!");
       };
-      added.appendChild(edit);
-      added.appendChild(upD);
-
-      var span = document.querySelector('#'+user+comment+num);
-      var parent = span.parentNode;
-      var ta = parent.querySelector('#'+user+comment+num+'textarea');
       console.log([...parent.children]);
       if(ta===null)
         parent.append(added);
       else
         parent.removeChild(ta.parentNode);
-        
 
+    }
+    function delRev(store,user,comment,num,x, id)
+    {
+       
+      var parent = x.parentNode;
+      var pParent = parent.parentNode;
+      var sParent = pParent.parentNode;
+      var mParent = sParent.parentNode;
+      var delID = x.id.substring(x.id.indexOf("l")+1);
+      console.log(delID);
+      var xhttp = new XMLHttpRequest();
+      var del = "";
+      xhttp.onreadystatechange = function()
+      {
+        if(this.readyState==4 && this.status==200)
+        {
+          del = this.responseText;
+          console.log(del);
+          if(del==="true")
+            mParent.removeChild(sParent);
+        }
+      };
+
+      console.log("Sent " + del);
+      xhttp.open("GET","/delete?name="+user+"&comment="+comment+"&num="+num+"&store="+store+"&value="+delID, true);
+      xhttp.send();
 
     }
 /*

@@ -49,7 +49,16 @@ app.post('/index', async function(req,res)
     uname = req.body.uname;
     var pass = req.body.psw;
     var acc = await findDocument({name:uname,pass:pass},{_id:0});
-    avatar = acc.pic;
+    try
+    {
+      avatar = acc.pic;
+    }catch(error)
+    {
+      res.render('login',{
+        error: "Incorrect Username or Password"
+      })
+    }
+    
     console.log(uname +" " + pass+ " " + acc);
     if(acc!=null)
     {
@@ -93,7 +102,14 @@ app.get('/editProfile', async function(req,res)
 {
   await client.connect();
   var document = await client.db('local').collection('accounts').findOne({name:uname});
-  console.log(document);
+  var collections = await client.db('local').listCollections().toArray();
+  var reviews = [];
+  for(i=0;i<collections.length;i++)
+  {
+    var rev = await client.db('local').collection(collections[i].name).find({user:uname}).toArray();
+    reviews = reviews.concat(rev);
+  }
+  console.log(reviews);
 
   await client.close();
   res.render('editProfile',
@@ -101,7 +117,8 @@ app.get('/editProfile', async function(req,res)
     pic:document.pic,
     name:document.name,
     email:document.email,
-    desc:document.desc
+    desc:document.desc,
+    review: reviews
   });
   
 
@@ -126,11 +143,13 @@ app.post('/login', async function(req,res)
       desc: desc
     }
 
+    console.log(document);
+
     var msg = "Error! Email or Username already taken!";
-    var sameEmail = client.db('local').collection('accounts').findOne({email:email});
-    var sameName = client.db('local').collection('accounts').findOne({name:name});
+    var sameEmail = await client.db('local').collection('accounts').findOne({email:email});
+    var sameName = await client.db('local').collection('accounts').findOne({name:name});
     
-    if(sameEmail==null && sameName==null)
+    if(sameEmail===null && sameName===null)
     {
       await createDocument("accounts",document);
       console.log("Created new user " + name + " linked to " + email);
@@ -184,6 +203,10 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
 
     await createCollection(store);
     var num = await randomInt(10);
+
+    var repString = comment.replace(/\s+/g,'-');
+    console.log(repString);
+    var revID = uname+repString+num;
     var document = 
     {
       user:uname,
@@ -193,7 +216,8 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
       helpcount : 0,
       num: num,
       userPic: userPic,
-      hidden:''
+      hidden:'',
+      revID: revID
     }
     
     console.log(num);
@@ -247,8 +271,10 @@ app.get('/saveEdit', async function(req,res)
   var comm = req.query.comment;
   var num = parseInt(req.query.num);
   var store = req.query.store;
-  var value = req.query.value;
-
+  var value = req.query.value.toString();
+  var strFR = value.replace(/\s+/g,'-');
+  var revID = name+strFR+num;
+  console.log("Saved " + revID + "|");
   var query = {
     user : name,
     comment: comm,
@@ -259,13 +285,46 @@ app.get('/saveEdit', async function(req,res)
   await client.connect();
   var doc = await client.db('local').collection(store).findOne(query);
   console.log(doc);
-  await client.db('local').collection(store).updateOne(query,{$set: {comment:value}});
+  await client.db('local').collection(store).updateOne(query,{$set: {comment:value, revID:revID}});
   await client.close();
 
   res.type('text/plain');
-  res.write(""+value);
+  res.write(value.length+"+"+value+"+"+revID);
   res.end();
   
+})
+
+app.get('/delete', async function(req,res)
+{
+  var name = req.query.name;
+  var comm = req.query.comment;
+  var num = parseInt(req.query.num);
+  var store = req.query.store;
+  var value = req.query.value;
+
+  var query = {
+    revID : value
+  };
+
+  try
+  {
+    await client.connect();
+    var doc = await client.db('local').collection(store).findOneAndDelete(query);
+    console.log(doc);
+    await client.close();
+    res.type('text/plain');
+    res.write("true");
+  }
+  catch(error)
+  {
+    console.log(error);
+    res.type('text/plain');
+    res.write("false");
+  }
+ 
+
+  
+  res.end();
 })
 
 app.listen(port,hostname,function()
