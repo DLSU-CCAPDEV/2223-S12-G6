@@ -158,7 +158,7 @@ function search()
     {
         stores.forEach(store => {
         store.hidden=true;
-        if(store.querySelector('.storename').innerHTML==x)
+        if(store.querySelector('.storename').innerHTML.includes(x))
         {
             store.hidden=false;
         }
