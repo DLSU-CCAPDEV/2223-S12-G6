@@ -306,18 +306,10 @@
         var ta = parent.querySelector('#'+user+comment+num+'textarea');
         console.log([...parent.children]);
         if(ta===null)
-        {
-          console.log("No edit!");
           parent.append(added);
-        }
         else
-        {
-          console.log("yes edit!");
           parent.removeChild(ta.parentNode);
-        }
           
-
-        console.log(parent.childNodes);
 
     }
 /*
