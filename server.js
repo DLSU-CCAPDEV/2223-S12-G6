@@ -235,9 +235,37 @@ app.get('/update', async function(req,res)
   console.log(doc);
   
   await client.db('local').collection(store).updateOne(doc,{$set: {helpcount:final}});
+  await client.close();
   res.type('text/plain');
   res.write(""+final);
   res.end();
+})
+
+app.get('/saveEdit', async function(req,res)
+{
+  var name = req.query.name;
+  var comm = req.query.comment;
+  var num = parseInt(req.query.num);
+  var store = req.query.store;
+  var value = req.query.value;
+
+  var query = {
+    user : name,
+    comment: comm,
+    num: num
+  };
+
+  console.log(query);
+  await client.connect();
+  var doc = await client.db('local').collection(store).findOne(query);
+  console.log(doc);
+  await client.db('local').collection(store).updateOne(query,{$set: {comment:value}});
+  await client.close();
+
+  res.type('text/plain');
+  res.write(""+value);
+  res.end();
+  
 })
 
 app.listen(port,hostname,function()

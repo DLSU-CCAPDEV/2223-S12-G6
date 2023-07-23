@@ -147,7 +147,7 @@
     {{#each review}}
     <li>
       {{rating}}
-      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{user}}{{comment}}{{num}}"> {{comment}}</span> <br><span id="helpful"><span><button {{hidden}} onclick="edit('{{user}}','{{comment}}','{{num}}', this)">Edit</button><button {{hidden}} onclick="delete({{user}},{{comment}},{{num}})">Delete</button></span>  <span id="helpcount{{user}}{{comment}}{{num}}">{{helpcount}}</span><input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
+      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{user}}{{comment}}{{num}}"> {{comment}}</span> <br><span id="helpful"><span><button {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this)">Edit</button><button {{hidden}} onclick="delete({{user}},{{comment}},{{num}})">Delete</button></span>  <span id="helpcount{{user}}{{comment}}{{num}}">{{helpcount}}</span><input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
       <input type="radio" name="{{user}}{{comment}}{{num}}" id="{{user}}{{comment}}{{num}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128078</span></span>
       <br>
       <br> 
@@ -279,37 +279,54 @@
       {{/if}}
       
     }
-    function edit(user,comment,num,x)
+    function edit(y,user,comment,num,x)
     {
-        var idString = user+comment+num+"textarea";
-        console.log("editing!");
-        if(x.innerHTML==="Edit")
-          x.innerHTML = "Cancel Edits";
-          else
-          x.innerHTML = "Edit";
-        const added = document.createElement('span');
-
-        const edit = document.createElement('textarea');
-        edit.id = idString;
-        edit.cols = "40";
-        edit.rows = "5";
-        edit.value = comment;
-
-        const upD = document.createElement('button');
-        upD.textContent = "Save Edits";
-
-        added.appendChild(edit);
-        added.appendChild(upD);
-
-        var span = document.querySelector('#'+user+comment+num);
-        var parent = span.parentNode;
-        var ta = parent.querySelector('#'+user+comment+num+'textarea');
-        console.log([...parent.children]);
-        if(ta===null)
-          parent.append(added);
+      var idString = user+comment+num+"textarea";
+      console.log("editing!");
+      if(x.innerHTML==="Edit")
+        x.innerHTML = "Cancel Edits";
         else
-          parent.removeChild(ta.parentNode);
-          
+        x.innerHTML = "Edit";
+      const added = document.createElement('span');
+
+      const edit = document.createElement('textarea');
+      edit.id = idString;
+      edit.cols = "40";
+      edit.rows = "5";
+      edit.value = comment;
+
+      const upD = document.createElement('button');
+      upD.textContent = "Save Edits";
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function()
+      {
+        if(this.readyState==4 && this.status==200)
+        {
+          document.getElementById(user+comment+num).innerHTML = this.responseText;
+        }
+      };
+
+      upD.onclick = function()
+      {
+        console.log("saving!");
+        
+        xhttp.open("GET","/saveEdit?name="+user+"&comment="+comment+"&num="+num+"&value="+edit.value+"&store="+y, true);
+        xhttp.send();
+        console.log("saved!");
+      };
+      added.appendChild(edit);
+      added.appendChild(upD);
+
+      var span = document.querySelector('#'+user+comment+num);
+      var parent = span.parentNode;
+      var ta = parent.querySelector('#'+user+comment+num+'textarea');
+      console.log([...parent.children]);
+      if(ta===null)
+        parent.append(added);
+      else
+        parent.removeChild(ta.parentNode);
+        
+
 
     }
 /*
