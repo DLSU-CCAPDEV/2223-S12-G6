@@ -182,7 +182,7 @@ app.get('/ReviewForUserAccessOnly', async function(req,res)
     }
     await client.db('local').collection(store).updateMany({user:uname},{$set:{hidden:''}});
     await client.db('local').collection(store).updateMany({$or:[{user:{$ne:uname}}]},{$set:{hidden:'hidden'}});
-    var reviews = await client.db("local").collection(store).find().toArray();
+    var reviews = await client.db("data").collection(store).find().toArray();
 
     res.render('ReviewForUserAccessOnly',{
       name : uname,
@@ -224,7 +224,7 @@ app.post('/ReviewForUserAccessOnly', async function(req,res)
     await createDocument(store,document);
 
     await client.connect();
-    var reviews = await client.db("local").collection(store).find().toArray();
+    var reviews = await client.db("data").collection(store).find().toArray();
     //console.log(reviews);
     //console.log(comment + rating + picture);
     res.render('ReviewForUserAccessOnly',
@@ -337,6 +337,7 @@ async function run() {
       // Connect the client to the server	(optional starting in v4.7)
       console.log("Connecting...");
       await client.connect();
+      
       console.log("Connected..!");
       // Send a ping to confirm a successful connection
       //await client.db("admin").command({ ping: 1 });
@@ -357,7 +358,7 @@ async function createCollection(collection)
   try
   {
     await client.connect();
-    await client.db("local").createCollection(collection);
+    await client.db("data").createCollection(collection);
   }catch(error)
   {
     console.log("Collection already created!");
@@ -375,7 +376,7 @@ async function createDocument(collection,document)
     console.log("Connecting to Register...");
     await client.connect();
     console.log("Connected to Register!");
-    await client.db("local").collection(collection).insertOne(document,{});
+    await client.db("data").collection(collection).insertOne(document,{});
     console.log("Document Inserted");
   }catch(error){ console.log(error);}
   finally
@@ -391,7 +392,7 @@ async function findDocument(document)
   try
   { 
     await client.connect();
-    account = await client.db("local").collection("accounts").findOne({name:document.name,pass:document.pass});
+    account = await client.db("data").collection("accounts").findOne({name:document.name,pass:document.pass});
     if(account != null)
       console.log("Account Found: Username: "+ account.name + " with password: " +account.pass);
     console.log(account);
