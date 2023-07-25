@@ -11,8 +11,8 @@ loggedin = false;
 uname = null;
 avatar = null;
 
-//const url = "mongodb+srv://TM6606:TM6606@bananacluster.lzoy6lc.mongodb.net/?retryWrites=true&w=majority";
-const url = "mongodb://127.0.0.1:27017/";
+const url = "mongodb+srv://TM6606:TM6606@bananacluster.lzoy6lc.mongodb.net/?retryWrites=true&w=majority";
+//const url = "mongodb://127.0.0.1:27017/";
 
 const app = express();
 app.use(bodyParser.urlencoded({extended:false}));
