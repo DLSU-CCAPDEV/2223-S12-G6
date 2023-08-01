@@ -249,6 +249,7 @@ li a
   list-style: none;
   display: block;
   float: left;
+  background-color: red;
 }
 span
 {

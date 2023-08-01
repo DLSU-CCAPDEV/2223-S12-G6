@@ -147,8 +147,8 @@
     {{#each review}}
     <li>
       <span class="icon">{{rating}}★</span>
-      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{revID}}"> {{comment}}</span> <br><span id="helpful"><span><button id="edit{{revID}}" {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this, '{{revID}}')">Edit</button><button {{hidden}} id="del{{revID}}" onclick="delRev('{{../storeName}}','{{user}}','{{comment}}','{{num}}',this, '{{revID}}')">Delete</button></span>  <span id="helpcount{{revID}}">{{helpcount}}</span><input type="radio" name="{{revID}}" id="{{revID}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128077</span>
-      <input type="radio" name="{{revID}}" id="{{revID}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{num}}')"><span>&#128078</span></span>
+      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{revID}}"> {{comment}}</span> <br><span id="helpful"><span><button id="edit{{revID}}" {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this, '{{revID}}')">Edit</button><button {{hidden}} id="del{{revID}}" onclick="delRev('{{../storeName}}','{{user}}','{{comment}}','{{num}}',this, '{{revID}}')">Delete</button></span>  <span id="helpcount{{revID}}">{{helpcount}}</span><input type="radio" name="{{revID}}" id="{{revID}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}')"><span>&#128077</span>
+      <input type="radio" name="{{revID}}" id="{{revID}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}')"><span>&#128078</span></span>
       <br>
       <br> 
       </li>
@@ -231,7 +231,7 @@
 
     function checkLogin()
     {
-      {{#if loggedin}}
+      {{#if name}}
         console.log("Adding COmment");
         //addComment();
       {{else}}
@@ -239,12 +239,12 @@
       {{/if}}
     }
 
-    function change(store,name,comment,num)
+    function change(store,name,comment,revID,num)
     {
       console.log(store,name,comment,num);
 
-      {{#if loggedin}}
-        var button = document.getElementsByName(name+comment+num);
+      {{#if name}}
+        var button = document.getElementsByName(revID);
         var value =
         {
           user:name,
@@ -262,12 +262,13 @@
 
         })
         console.log(value);
+        console.log(value.count);
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function()
         {
           if(this.readyState==4 && this.status==200)
           {
-            document.getElementById("helpcount"+id).innerHTML = this.responseText;
+            document.getElementById("helpcount"+revID).innerHTML = this.responseText;
           }
         };
 

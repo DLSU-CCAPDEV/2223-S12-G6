@@ -10,7 +10,7 @@
 
 <body>
 <div class="container bootstrap snippets bootdey">
-    <h1 class="text-primary"><a href="index">Home</a><a id="logout" href="/">LOG OUT</a></h1>
+    <h1 class="text-primary"><a href="index">Home</a><a id="logout" href="logout">LOG OUT</a></h1>
       <hr>
 	<div class="row">
       <!-- left column -->
@@ -75,8 +75,8 @@
     <ul id="commentList">
       {{#each review}}
         <li>
-        {{rating}}
-        <img src="{{userPic}}" class="avatar">  {{user}} : {{comment}}
+        ||{{rating}}★||
+        <img src="{{userPic}}" class="avatar">  <span>{{user}} : {{comment}}</span>
         <hr> 
         </li>
       {{/each}}
