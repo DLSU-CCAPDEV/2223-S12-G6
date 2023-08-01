@@ -101,12 +101,12 @@ app.get('/index', function(req,res)
 app.get('/editProfile', async function(req,res)
 {
   await client.connect();
-  var document = await client.db('local').collection('accounts').findOne({name:uname});
-  var collections = await client.db('local').listCollections().toArray();
+  var document = await client.db('data').collection('accounts').findOne({name:uname});
+  var collections = await client.db('data').listCollections().toArray();
   var reviews = [];
   for(i=0;i<collections.length;i++)
   {
-    var rev = await client.db('local').collection(collections[i].name).find({user:uname}).toArray();
+    var rev = await client.db('data').collection(collections[i].name).find({user:uname}).toArray();
     reviews = reviews.concat(rev);
   }
   console.log(reviews);
@@ -146,8 +146,8 @@ app.post('/login', async function(req,res)
     console.log(document);
 
     var msg = "Error! Email or Username already taken!";
-    var sameEmail = await client.db('local').collection('accounts').findOne({email:email});
-    var sameName = await client.db('local').collection('accounts').findOne({name:name});
+    var sameEmail = await client.db('data').collection('accounts').findOne({email:email});
+    var sameName = await client.db('data').collection('accounts').findOne({name:name});
     
     if(sameEmail===null && sameName===null)
     {
@@ -180,8 +180,8 @@ app.get('/ReviewForUserAccessOnly', async function(req,res)
     {
       user:uname,
     }
-    await client.db('local').collection(store).updateMany({user:uname},{$set:{hidden:''}});
-    await client.db('local').collection(store).updateMany({$or:[{user:{$ne:uname}}]},{$set:{hidden:'hidden'}});
+    await client.db('data').collection(store).updateMany({user:uname},{$set:{hidden:''}});
+    await client.db('data').collection(store).updateMany({$or:[{user:{$ne:uname}}]},{$set:{hidden:'hidden'}});
     var reviews = await client.db("data").collection(store).find().toArray();
 
     res.render('ReviewForUserAccessOnly',{
@@ -254,11 +254,11 @@ app.get('/update', async function(req,res)
   };
 
   await client.connect();
-  var doc = await client.db('local').collection(store).findOne(query,{helpcount:1});
+  var doc = await client.db('data').collection(store).findOne(query,{helpcount:1});
   var final = doc.helpcount+value;
   console.log(doc);
   
-  await client.db('local').collection(store).updateOne(doc,{$set: {helpcount:final}});
+  await client.db('data').collection(store).updateOne(doc,{$set: {helpcount:final}});
   await client.close();
   res.type('text/plain');
   res.write(""+final);
@@ -283,9 +283,9 @@ app.get('/saveEdit', async function(req,res)
 
   console.log(query);
   await client.connect();
-  var doc = await client.db('local').collection(store).findOne(query);
+  var doc = await client.db('data').collection(store).findOne(query);
   console.log(doc);
-  await client.db('local').collection(store).updateOne(query,{$set: {comment:value, revID:revID}});
+  await client.db('data').collection(store).updateOne(query,{$set: {comment:value, revID:revID}});
   await client.close();
 
   res.type('text/plain');
@@ -309,7 +309,7 @@ app.get('/delete', async function(req,res)
   try
   {
     await client.connect();
-    var doc = await client.db('local').collection(store).findOneAndDelete(query);
+    var doc = await client.db('data').collection(store).findOneAndDelete(query);
     console.log(doc);
     await client.close();
     res.type('text/plain');
