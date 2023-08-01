@@ -58,27 +58,6 @@ app.listen(port,hostname,function()
   console.log("Server listening at http://" + hostname + ":" +port );
 })
 
-/*
-async function run() {
-    try {
-      // Connect the client to the server	(optional starting in v4.7)
-      console.log("Connecting...");
-      await client.connect();
-      
-      console.log("Connected..!");
-      // Send a ping to confirm a successful connection
-      //await client.db("admin").command({ ping: 1 });
-      await createCollection("accounts");
-      await findDocument({name:"banana", pass:"1234"});
-      console.log("Pinged your deployment. You successfully connected to MongoDB!");
-    } finally {
-      // Ensures that the client will close whens you finish/error
-      await client.close();
-      console.log("Client Closed");
-    }
-}
-run().catch(console.dir);
-*/
 hbs.registerHelper('ifEquals', function(var1,var2,options)
 {
   if(var1===var2)
