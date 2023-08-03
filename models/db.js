@@ -30,7 +30,7 @@ const database = {
         var sameEmail   = await client.db(dbname).collection('accounts').findOne({email:document.email});
         await client.close();
 
-        if(sameName===null && sameEmail===null)
+        if(sameName===null && sameEmail===null && document.pass.length>8)
         {
             await this.createDocument(document,'accounts');
             return callback(true);

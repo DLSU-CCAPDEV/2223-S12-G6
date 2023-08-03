@@ -5,8 +5,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>TNY Register</title>
         <link rel="stylesheet" type="text/css" href="css/main.css">
-        <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=cY7nBEusB4VL7S2dpTyA9rqMMrPWDduy8QTbyBjDznqg0RxBBbWFNG1Hz8v6BGOSa7LoP9feSufWXE6goAuSrIpOyiDE_rSwRkobbYHttsGTx_0FKoDNfGNcPzKsgWiPaqNQiAA51qX1LgM92bmzoQXxFgJEIvI_CkWSKmgD5JVgLoM3_FErCtfwoNp1XLwpPJReTz6huyLAmQLvEarLCZG2DoXiKywafTHmEfCx48hPzbCaurVnffnUO0W2CN6POTtiKgXwQg4Qf51lqXEnA5j40vz7BR6azMzsvDaAJR4pO-LsfPh6tsRIPjaR0A4j50fMtUWPchmPTfBZR4C1tbm3Gm0DL-MpWxJr8_4p2wRh2fltdMXy9KZsV_387ta5F0ZzzVQHonOhlTTahxwDHohmpw1bz4xzdZiKWFkKHsDK6gct3thi1UjfYGrzWDfFWicDozuxXdcKD875SxfxxA" charset="UTF-8"></script><script type="text/javascript" src="scripts/main.js"></script>
-    </head>
+        <script type="text/javascript" src="https://me.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=cY7nBEusB4VL7S2dpTyA9rqMMrPWDduy8QTbyBjDznqg0RxBBbWFNG1Hz8v6BGOSa7LoP9feSufWXE6goAuSrIpOyiDE_rSwRkobbYHttsGTx_0FKoDNfGNcPzKsgWiPaqNQiAA51qX1LgM92bmzoQXxFgJEIvI_CkWSKmgD5JVgLoM3_FErCtfwoNp1XLwpPJReTz6huyLAmQLvEarLCZG2DoXiKywafTHmEfCx48hPzbCaurVnffnUO0W2CN6POTtiKgXwQg4Qf51lqXEnA5j40vz7BR6azMzsvDaAJR4pO-LsfPh6tsRIPjaR0A4j50fMtUWPchmPTfBZR4C1tbm3Gm0DL-MpWxJr8_4p2wRh2fltdMXy9KZsV_387ta5F0ZzzVQHonOhlTTahxwDHohmpw1bz4xzdZiKWFkKHsDK6gct3thi1UjfYGrzWDfFWicDozuxXdcKD875SxfxxA" charset="UTF-8"></script>
+	</head>
 	<body>
 		<form action="login" method="post">
 		<div class="containerRegister">
@@ -15,18 +15,20 @@
 			<br></br>
 			<p><b>Already have an account?</b><a href="login"> Sign in</a></p>
     			<hr>
-				<h3>{{msg}}</h3>
 				<br>
+				<p id="errorEm" hidden>Email already taken!</p>
     			<label for="email"><b>Email</b></label><br>
 			<input type="text" placeholder="Enter Email" name="email" id="email" required>
 			<br>
+			<p id="errorNa" hidden>Username already taken!</p>
 			<label for="uname"><b>Username</b></label><br>
 			<input type="text" placeholder="Enter Username" name="uname" id="uname" required>
 			<br>
+			<p id="errorPassLength" hidden>Password should be longer than 8 characters</p>
     			<label for="psw"><b>Password</b></label><br>
     			<input type="password" placeholder="Enter Password" name="psw" id="psw" required>
 			<br>
-
+			<p id="errorPassSame" hidden>Password should match</p>
     			<label for="psw-repeat"><b>Repeat Password</b></label><br>
     			<input type="password" placeholder="Repeat Password" name="psw-repeat" id="psw-repeat" required>
     			<hr>
@@ -79,5 +81,6 @@
 			*/
 		}
 	</script>
+	</script><script type="text/javascript" src="../scripts/register.js"></script>
 	</body>
 </html>

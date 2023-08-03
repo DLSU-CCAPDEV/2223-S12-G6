@@ -264,3 +264,24 @@ span
 .comments { 
     margin-top: 10px;
   }
+
+#errorNa
+{
+    color:red;
+    font-size: small;
+}
+#errorEm
+{
+    color:red;
+    font-size: small;
+}
+#errorPassLength
+{
+    color:red;
+    font-size: small;
+}
+#errorPassSame
+{
+    color:red;
+    font-size: small;
+}

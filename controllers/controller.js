@@ -256,6 +256,50 @@ const controller =
             res.write('false');
         }
         res.end();
+    },
+
+    validateEmail : async function(req,res)
+    {
+        var email = req.query.email;
+
+        var doc = 
+        {
+            email:email
+        }
+
+        var acc = await db.findAcc(doc,function(result)
+        {
+            if(result!==null)
+            {
+                res.type('text/plain');
+                res.write('gagi-wag');
+                
+            }
+            
+        })
+        res.end();
+    },
+
+    validateName : async function(req,res)
+    {
+        var name = req.query.name;
+
+        var doc = 
+        {
+            name:name
+        }
+
+        var acc = await db.findAcc(doc,function(result)
+        {
+            if(result!==null)
+            {
+                res.type('text/plain');
+                res.write('gagi-wag');
+                
+            }
+            
+        })
+        res.end();
     }
 }
 

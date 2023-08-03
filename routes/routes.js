@@ -29,5 +29,8 @@ app.get('/delete', controller.delete);
 
 app.get('/logout',controller.logOut);
 
+app.get('/emailCheck', controller.validateEmail);
+
+app.get('/nameCheck', controller.validateName);
 
 module.exports = app;
