@@ -6,24 +6,53 @@ const saltRounds = 10;
 
 const controller =
 {
-    home: function(req,res)
+    home: async function(req,res)
     {
+        var r1=r2=r3=r4=r5=0;
+
+        await db.getRatings(function(ratings){
+            console.log(ratings);
+            ratings.forEach(function(rating,index,arr)
+            {
+                if(isNaN(rating))
+                    arr[index] = "No Ratings Yet";
+            }
+            );
+            r1 = ratings[0];
+            r2 = ratings[1];
+            r3 = ratings[2];
+            r4 = ratings[3];
+            r5 = ratings[4];
+            console.log(r1);
+        });
         console.log(req.session.user);
         if(req.session.user==null)
         {
+            console.log(r1);
             res.render('index',
             {
                 lin:"login",
-                user:'LOGIN'
+                user:'LOGIN',
+                r1:r1,
+                r2:r2,
+                r3:r3,
+                r4:r4,
+                r5:r5,
             });
         }
         else
         {
+            console.log(r1);
             res.render('index',
             {
                 lin:"editProfile",
                 user:req.session.user,
-                picture:req.session.picture
+                picture:req.session.picture,
+                r1:r1,
+                r2:r2,
+                r3:r3,
+                r4:r4,
+                r5:r5,
             })
         }
     },

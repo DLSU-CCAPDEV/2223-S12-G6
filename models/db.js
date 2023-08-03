@@ -139,8 +139,63 @@ const database = {
         await client.connect();
         await client.db(dbname).collection(collection).findOneAndDelete(document);
         await client.close();
-    }
+    },
 
+    getRatings : async function(callback)
+    {
+        
+    try
+    {   
+        var totalRating = [0, 0, 0, 0, 0];
+        await client.connect();
+        var revs1 = await client.db(dbname).collection("JOLLIBEE").find().project({_id:0,rating:1}).toArray();
+        var revs2 = await client.db(dbname).collection("MCDO").find().project({_id:0,rating:1}).toArray();
+        var revs3 = await client.db(dbname).collection("KFC").find().project({_id:0,rating:1}).toArray();
+        var revs4 = await client.db(dbname).collection("ATE RICA'S BACSILOG").find().project({_id:0,rating:1}).toArray();
+        var revs5 = await client.db(dbname).collection("CANTEEN").find().project({_id:0,rating:1}).toArray();
+        await client.close();
+        revs1.forEach(rev=>
+            {
+                totalRating[0] = totalRating[0] + parseInt(rev.rating);
+            })
+        revs2.forEach(rev=>
+            {
+                totalRating[1] = totalRating[1] + parseInt(rev.rating);
+            })
+        revs3.forEach(rev=>
+            {
+                totalRating[2] = totalRating[2] + parseInt(rev.rating);
+            })
+        revs4.forEach(rev=>
+            {
+                totalRating[3] = totalRating[3] + parseInt(rev.rating);
+            })
+        revs5.forEach(rev=>
+            {
+                totalRating[4] = totalRating[4] + parseInt(rev.rating);
+            })            
+        
+        totalRating[0] = totalRating[0]/revs1.length;
+        totalRating[1] = totalRating[1]/revs2.length;
+        totalRating[2] = totalRating[2]/revs3.length;
+        totalRating[3] = totalRating[3]/revs4.length;
+        totalRating[4] = totalRating[4]/revs5.length;
+        //console.log(totalRating);
+        totalRating[0] = Math.round(totalRating[0]*100)/100;
+        totalRating[1] = Math.round(totalRating[1]*100)/100;
+        totalRating[2] = Math.round(totalRating[2]*100)/100;
+        totalRating[3] = Math.round(totalRating[3]*100)/100;
+        totalRating[4] = Math.round(totalRating[4]*100)/100;
+
+    }
+    catch(error)
+    {
+        console.log(error);
+        return callback(0);
+    }
+       
+        return callback(totalRating);
+    }
 }   
 
 module.exports = database;

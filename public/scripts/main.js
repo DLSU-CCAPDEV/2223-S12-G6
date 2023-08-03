@@ -28,11 +28,7 @@ window.onload = function()
     // we will have multiple stores. Also adds an id to them automatically
     // upon loading. Personally makes it easier but if theres another way
     // go ahead lang.
-    if(localStorage.getItem("loggedin")=="true")
-    {
-        document.querySelector('#person').innerHTML="PROFILE";
-        document.querySelector('#person').href = "editProfile";
-    }
+
 
     var buttons = document.getElementsByClassName("storename");
     var stores = document.getElementsByClassName("store");
@@ -40,22 +36,7 @@ window.onload = function()
     {
         stores[x].id = "store"+x;
         buttons[x].id = "button"+x;
-        var name = stores[x].querySelector('.storename').innerHTML;
-        if(localStorage.getItem('reviews'+name))
-        {
-            var revs = JSON.parse(localStorage.getItem('reviews'+name));
-            var rating = 0;
-            var y =0;
-            revs.forEach(element => {
-                y++;
-                rating += element.rating;
-            });
-            rating /=y;
-            stores[x].querySelector('.rating').innerHTML = Math.round(rating*100)/100;
-        }
-        else
-        stores[x].querySelector('.rating').innerHTML = "No Ratings";
-        
+
         buttons[x].onclick = function disp()
         {   
             storeClick(this.id, x);
