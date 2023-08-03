@@ -130,10 +130,17 @@ const controller =
     {  
         var store = req.query.storeName;
         console.log(store);
-        if(req.session.user===null)
+        if(req.session.user==null)
+        {   
+            var method = "GET";
             var link = "login";
+        }
         else
+        {
+            var method = "POST";
             var link = "ReviewForUserAccessOnly";
+        }
+            
 
         db.getStoreReviews(store,req.session.user,function(reviews)
         {
@@ -142,6 +149,7 @@ const controller =
             {
                 name:req.session.user,
                 storeName: store,
+                method : method,
                 link : link,
                 review:reviews
             });
