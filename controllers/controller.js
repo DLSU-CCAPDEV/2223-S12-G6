@@ -5,7 +5,8 @@ const controller =
 {
     home: function(req,res)
     {
-        if(req.session.user===null)
+        console.log(req.session.user);
+        if(req.session.user==null)
         {
             res.render('index',
             {
