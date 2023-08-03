@@ -1,5 +1,8 @@
 const { parse } = require('dotenv');
 const db = require('../models/db.js');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 
 const controller =
 {
@@ -66,29 +69,32 @@ const controller =
         var pic = req.body.avatar;
         var desc = req.body.desc;
         var msg = "Error! Email or Username already taken!";
-        var document =
-        {
-            email: email,
-            name : name,
-            pass : pass,
-            pic : pic,
-            desc: desc
-        }
 
-        db.regAcc(document,function(flag)
+        bcrypt.hash(pass,saltRounds,function(err,hash)
         {
-            if(flag)
+            var document =
             {
-                res.render('login');
+                email: email,
+                name : name,
+                pass : hash,
+                pic : pic,
+                desc: desc
             }
-            else
+                db.regAcc(document,function(flag)
             {
-                res.render('register',
+                if(flag)
                 {
-                    msg:msg
-                })
-            }
-        })
+                    res.render('login');
+                }
+                else
+                {
+                    res.render('register',
+                    {
+                        msg:msg
+                    })
+                }
+            });
+        });
     },
 
     rev : function(req,res)
@@ -148,31 +154,45 @@ const controller =
     loginIndex : function(req,res)
     {
         console.log("LOGGING IN FROM CONTROLLER!");
+        var pass = req.body.psw;
         var doc = {
-            name : req.body.uname,
-            pass : req.body.psw
+            name : req.body.uname
         }
         db.findAcc(doc,function(result)
         {
             if(result!==null)
             {
-                req.session.user = result.name;
-                req.session.picture = result.pic;
-                req.session.email = result.email;
-                req.session.desc = result.desc;
-                res.render('index',
+                bcrypt.compare(pass,result.pass,function(err,equal)
                 {
-                    lin:"editProfile",
-                    user:result.name,
-                    picture:result.pic
-                }); 
+                    if(equal)
+                    {
+                        req.session.user = result.name;
+                        req.session.picture = result.pic;
+                        req.session.email = result.email;
+                        req.session.desc = result.desc;
+                        res.render('index',
+                        {
+                            lin:"editProfile",
+                            user:result.name,
+                            picture:result.pic
+                        }); 
+                    }
+                    else
+                    {
+                        res.render('login',
+                        {
+                            error: "Incorrect Password"
+                        });
+                    }
+                })
+                
             }
             else
             {
                 console.log("Going back to the corner");
                 res.render('login',
                 {
-                    error: "Incorrect Username or Password"
+                    error: "No User Found in Databse"
                 });
             }
             
