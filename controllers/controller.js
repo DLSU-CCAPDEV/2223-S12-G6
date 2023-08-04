@@ -2,7 +2,7 @@ const { parse } = require('dotenv');
 const db = require('../models/db.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
-
+let accs = [];
 
 const controller =
 {
@@ -87,7 +87,14 @@ const controller =
 
     register: function(req,res)
     {
-        res.render('register');
+        db.getAccounts(function(result)
+        {
+            accs = result;
+            console.log(accs);
+            res.render('register');
+        })
+        
+        
     },
 
     registerThru : function(req,res)
@@ -316,25 +323,27 @@ const controller =
         res.end();
     },
 
+    /// USE NEW GLOBAL VARIABLE ACCS
     validateEmail : async function(req,res)
     {
         var email = req.query.email;
-
+        console.log(accs);
         var doc = 
         {
             email:email
         }
-
-        var acc = await db.findAcc(doc,function(result)
+        
+        var acc = accs.find(function(element)
         {
-            if(result!==null)
-            {
-                res.type('text/plain');
-                res.write('gagi-wag');
-                
-            }
-            
-        })
+            return element.email === email;
+        });
+        //USE FIND
+        if(acc != null)
+        {
+            res.type('text/plain');
+            res.write('gagi-wag');
+        }
+
         res.end();
     },
 
@@ -342,21 +351,16 @@ const controller =
     {
         var name = req.query.name;
 
-        var doc = 
+        var acc = accs.find(function(element)
         {
-            name:name
+            return element.name === name;
+        });
+        //USE FIND
+        if(acc != null)
+        {
+            res.type('text/plain');
+            res.write('gagi-wag');
         }
-
-        var acc = await db.findAcc(doc,function(result)
-        {
-            if(result!==null)
-            {
-                res.type('text/plain');
-                res.write('gagi-wag');
-                
-            }
-            
-        })
         res.end();
     }
 }

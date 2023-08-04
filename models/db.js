@@ -195,7 +195,17 @@ const database = {
     }
        
         return callback(totalRating);
+    },
+
+    getAccounts : async function(callback)
+    {
+        await client.connect();
+        var accs = await client.db(dbname).collection('accounts').find().project({name:1,email:1}).toArray();
+        await client.close();
+        return callback(accs);
+
     }
+
 }   
 
 module.exports = database;
