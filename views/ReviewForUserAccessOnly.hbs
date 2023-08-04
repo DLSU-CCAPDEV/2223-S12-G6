@@ -147,8 +147,8 @@
     {{#each review}}
     <li>
       <span class="icon">{{rating}}★</span>
-      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{revID}}"> {{comment}}</span> <br><span id="helpful"><span><button id="edit{{revID}}" {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this, '{{revID}}')">Edit</button><button {{hidden}} id="del{{revID}}" onclick="delRev('{{../storeName}}','{{user}}','{{comment}}','{{num}}',this, '{{revID}}')">Delete</button></span>  <span id="helpcount{{revID}}">{{helpcount}}</span><input type="radio" name="{{revID}}" id="{{revID}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}')"><span>&#128077</span>
-      <input type="radio" name="{{revID}}" id="{{revID}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}')"><span>&#128078</span></span>
+      <img src="{{userPic}}" class="avatar">  {{user}} :<span id="{{revID}}">{{comment}}</span> <br><span id="helpful"><span><button id="edit{{revID}}" {{hidden}} onclick="edit('{{../storeName}}','{{user}}','{{comment}}','{{num}}', this, '{{revID}}')">Edit</button><button {{hidden}} id="del{{revID}}" onclick="delRev('{{../storeName}}','{{user}}','{{comment}}','{{num}}',this, '{{revID}}')">Delete</button></span>  <span id="helpcount{{revID}}">{{helpcount}}</span><input type="radio" name="{{revID}}" id="like1{{revID}}" value=1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}',this)"><span>&#128077</span>
+      <input type="radio" name="{{revID}}" id="like0{{revID}}" value=-1 onchange="change('{{../storeName}}','{{user}}','{{comment}}','{{revID}}','{{num}}',this)"><span>&#128078</span></span>
       <br>
       <br> 
       </li>
@@ -239,20 +239,22 @@
       {{/if}}
     }
 
-    function change(store,name,comment,revID,num)
+    function change(store,name,comment,revID,num, x)
     {
       console.log(store,name,comment,num);
+
+      var comm = document.getElementById(x.id.substring(5)).innerHTML;
 
       {{#if name}}
         var button = document.getElementsByName(revID);
         var value =
         {
           user:name,
-          comment:comment,
+          comment:comm,
           num:num,
           count:0
         };
-        var id = name+comment+num;
+        var id = name+comm+num;
         button.forEach(check =>
         {
           if(check.checked)
@@ -268,12 +270,12 @@
         {
           if(this.readyState==4 && this.status==200)
           {
-            document.getElementById("helpcount"+revID).innerHTML = this.responseText;
+            document.getElementById("helpcount"+x.id.substring(5)).innerHTML = this.responseText;
           }
         };
 
           console.log("Sent "+ value);
-          xhttp.open("GET","/update?name="+name+"&comment="+comment+"&num="+num+"&value="+value.count+"&store="+store, true);
+          xhttp.open("GET","/update?name="+name+"&comment="+comm+"&num="+num+"&value="+value.count+"&store="+store, true);
           xhttp.send();
       {{else}}
         window.location.href="login";
@@ -302,9 +304,9 @@
       added.appendChild(edit);
       added.appendChild(upD);
 
-      var span = document.querySelector('#'+id);
+      var span = document.getElementById(id);
       var parent = span.parentNode;
-      var ta = parent.querySelector('#'+idString);
+      var ta = document.getElementById(idString);
 
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function()
@@ -317,6 +319,9 @@
           document.getElementById(id).id = this.responseText.substring(first+len+1);
           document.getElementById("del"+id).id = "del"+this.responseText.substring(first+len+1);
           document.getElementById("edit"+id).id = "edit"+this.responseText.substring(first+len+1);
+          document.getElementById("helpcount"+id).id = "helpcount"+this.responseText.substring(first+len+1);
+          document.getElementById("like1"+id).id = "like1"+this.responseText.substring(first+len+1);
+          document.getElementById("like0"+id).id = "like0"+this.responseText.substring(first+len+1);
           parent.removeChild(added);
           x.innerHTML="Edit";
 

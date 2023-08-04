@@ -117,7 +117,7 @@ const database = {
     updateRevCount : async function(document, value, collection, callback)
     {
         await client.connect();
-        var doc = await client.db(dbname).collection(collection).findOne(document, {helpcount:1});
+        var doc = await client.db(dbname).collection(collection).findOne(document);
         console.log(doc);
         var final = doc.helpcount + value;
         await client.db(dbname).collection(collection).updateOne(document,{$set: {helpcount: final}});

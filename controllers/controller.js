@@ -195,8 +195,25 @@ const controller =
         });
     },
 
-    loginIndex : function(req,res)
+    loginIndex : async function(req,res)
     {
+        var r1=r2=r3=r4=r5=0;
+
+        await db.getRatings(function(ratings){
+            console.log(ratings);
+            ratings.forEach(function(rating,index,arr)
+            {
+                if(isNaN(rating))
+                    arr[index] = "No Ratings Yet";
+            }
+            );
+            r1 = ratings[0];
+            r2 = ratings[1];
+            r3 = ratings[2];
+            r4 = ratings[3];
+            r5 = ratings[4];
+            console.log(r1);
+        });
         console.log("LOGGING IN FROM CONTROLLER!");
         var pass = req.body.psw;
         var doc = {
@@ -218,7 +235,12 @@ const controller =
                         {
                             lin:"editProfile",
                             user:result.name,
-                            picture:result.pic
+                            picture:result.pic,
+                            r1:r1,
+                            r2:r2,
+                            r3:r3,
+                            r4:r4,
+                            r5:r5,
                         }); 
                     }
                     else
